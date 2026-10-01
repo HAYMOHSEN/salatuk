@@ -1,0 +1,138 @@
+{
+  "id": "./",
+  "name": "سَمْت — مواقيت الصلاة والقبلة",
+  "short_name": "سَمْت",
+  "description": "مواقيت صلاة دقيقة تُحسب فلكياً على جهازك، واتجاه القبلة، والأذكار، والمسبحة، بست لغات ودون إنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F3F5F7",
+  "theme_color": "#F3F5F7",
+  "categories": [
+    "lifestyle",
+    "utilities",
+    "education"
+  ],
+  "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 420
+  },
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "اتجاه القبلة",
+      "short_name": "القبلة",
+      "url": "./?page=qibla",
+      "icons": [
+        {
+          "src": "icons/shortcut-qibla.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "الأذكار",
+      "short_name": "الأذكار",
+      "url": "./?page=adhkar",
+      "icons": [
+        {
+          "src": "icons/shortcut-adhkar.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "التسبيح",
+      "short_name": "التسبيح",
+      "url": "./?page=tasbeeh",
+      "icons": [
+        {
+          "src": "icons/shortcut-tasbeeh.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "مواقيت الشهر",
+      "short_name": "التقويم",
+      "url": "./?page=calendar",
+      "icons": [
+        {
+          "src": "icons/shortcut-calendar.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/wide-1.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "مواقيت اليوم مع مسار الشمس"
+    },
+    {
+      "src": "screenshots/wide-2.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "الوضع الداكن ليلاً"
+    },
+    {
+      "src": "screenshots/narrow-1.png",
+      "sizes": "540x1170",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "مواقيت اليوم على الهاتف"
+    },
+    {
+      "src": "screenshots/narrow-2.png",
+      "sizes": "540x1170",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "الأذكار"
+    }
+  ]
+}

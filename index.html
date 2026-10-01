@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F5F7">
+<meta name="application-name" content="سَمْت">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="سَمْت">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="description" content="سَمْت — مواقيت الصلاة والقبلة والأذكار">
+<title>سَمْت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font:"IBM Plex Sans Arabic","Segoe UI",system-ui,-apple-system,Tahoma,Arial,sans-serif;
+  --font-q:"Amiri","Traditional Arabic","Noto Naskh Arabic","Times New Roman",serif;
+  --bg:#F3F5F7;--surface:#FFFFFF;--surface-2:#F1F4F7;--surface-3:#E4E9EF;
+  --ink:#0E1726;--ink-2:#3A4556;--muted:#667185;--line:#E2E7ED;--line-2:#D1D8E1;
+  --accent:#0B7A63;--accent-hover:#08684F;--accent-ink:#FFFFFF;--accent-soft:#E3F3EE;--accent-line:#B7DFD2;
+  --shadow-1:0 1px 2px rgba(14,23,38,.05);
+  --shadow-2:0 1px 2px rgba(14,23,38,.04),0 10px 30px rgba(14,23,38,.08);
+  --ring:0 0 0 3px rgba(11,122,99,.32);
+  --r-xl:22px;--r-lg:16px;--r-md:12px;--r-sm:10px;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A101B;--surface:#0F1826;--surface-2:#152134;--surface-3:#1D2B42;
+    --ink:#E7ECF3;--ink-2:#C1CAD7;--muted:#8D99AB;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.13);
+    --accent:#35C29D;--accent-hover:#4DD2AE;--accent-ink:#04211A;--accent-soft:rgba(53,194,157,.13);--accent-line:rgba(53,194,157,.38);
+    --shadow-1:none;--shadow-2:0 10px 30px rgba(0,0,0,.4);--ring:0 0 0 3px rgba(53,194,157,.38);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A101B;--surface:#0F1826;--surface-2:#152134;--surface-3:#1D2B42;
+  --ink:#E7ECF3;--ink-2:#C1CAD7;--muted:#8D99AB;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.13);
+  --accent:#35C29D;--accent-hover:#4DD2AE;--accent-ink:#04211A;--accent-soft:rgba(53,194,157,.13);--accent-line:rgba(53,194,157,.38);
+  --shadow-1:none;--shadow-2:0 10px 30px rgba(0,0,0,.4);--ring:0 0 0 3px rgba(53,194,157,.38);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0 0 auto 0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0;-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:default;opacity:.35}
+svg{display:block}
+h1,h2,h3{margin:0;font-weight:600}
+p{margin:0}
+:focus{outline:none}
+:focus-visible{box-shadow:var(--ring);border-radius:10px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.flip{display:inline-block}
+[dir="rtl"] .flip{transform:scaleX(-1)}
+::selection{background:var(--accent-soft)}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:minmax(0,1fr);min-height:100%}
+.side{display:none}
+.main{min-width:0;display:flex;flex-direction:column}
+.content{width:100%;max-width:1180px;margin:0 auto;padding:4px 16px calc(98px + env(safe-area-inset-bottom,0px))}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--bg);background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(14px);backdrop-filter:saturate(1.5) blur(14px)}
+.tb-brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;letter-spacing:.2px}
+.tb-brand svg{width:32px;height:32px}
+.tb-title{font-size:24px;font-weight:600}
+.loc-chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px 0 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-1);font-size:14px;font-weight:500;max-width:60vw}
+.loc-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loc-chip svg{width:18px;height:18px;flex:0 0 auto;color:var(--accent)}
+.loc-chip .chev{color:var(--muted);width:16px;height:16px}
+.loc-chip:hover{border-color:var(--line-2)}
+.mobile-only{}
+.desktop-only{display:none!important}
+
+.tabbar{position:fixed;z-index:25;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--surface);background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(16px);backdrop-filter:saturate(1.5) blur(16px);border-top:1px solid var(--line)}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px 5px;border-radius:12px;font-size:11.5px;font-weight:500;color:var(--muted)}
+.tabbar button svg{width:23px;height:23px}
+.tabbar button[aria-current="page"]{color:var(--accent)}
+.tabbar button[aria-current="page"] svg{stroke-width:2}
+
+.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 22px}
+.brand svg{width:40px;height:40px}
+.brand b{display:block;font-size:21px;font-weight:700;line-height:1.15}
+.brand small{display:block;color:var(--muted);font-size:12.5px}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.side-nav button{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:11px;color:var(--ink-2);font-weight:500;font-size:15px;text-align:start;transition:background .15s,color .15s}
+.side-nav button svg{width:21px;height:21px;flex:0 0 auto}
+.side-nav button:hover{background:var(--surface-2);color:var(--ink)}
+.side-nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.side-next{margin-top:auto;padding:16px;border-radius:var(--r-lg);background:var(--surface-2);border:1px solid var(--line)}
+.side-next .l{font-size:12.5px;color:var(--muted)}
+.side-next .n{display:block;font-size:20px;font-weight:600;margin-top:2px}
+.side-next .r{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:4px;font-size:14px;color:var(--ink-2)}
+.side-next .cd2{font-size:17px;font-weight:600;color:var(--accent);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+
+@media (min-width:1024px){
+  .app{grid-template-columns:268px minmax(0,1fr)}
+  .side{display:flex;flex-direction:column;position:sticky;top:0;align-self:start;height:100vh;padding:20px 14px;background:var(--surface);border-inline-end:1px solid var(--line)}
+  .tabbar{display:none}
+  .topbar{padding:20px 32px 14px}
+  .content{padding:4px 32px 56px}
+  .mobile-only{display:none!important}
+  .desktop-only{display:revert!important}
+}
+
+/* ---------- primitives ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-1);padding:18px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.card-h h3{font-size:15.5px;font-weight:600}
+.w-ic{color:var(--muted)}
+.w-ic svg{width:22px;height:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:var(--r-sm);background:var(--surface-2);color:var(--ink);font-weight:500;font-size:14.5px;border:1px solid var(--line);transition:background .15s,border-color .15s;white-space:nowrap}
+.btn svg{width:18px;height:18px}
+.btn:hover{background:var(--surface-3)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn-block{display:flex;width:100%}
+.ib{width:38px;height:38px;display:inline-grid;place-items:center;border-radius:11px;color:var(--muted);transition:background .15s,color .15s;flex:0 0 auto}
+.ib:hover:not(:disabled){background:var(--surface-2);color:var(--ink)}
+.ib svg{width:20px;height:20px}
+.bar{height:6px;border-radius:99px;background:var(--surface-3);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--accent);transition:width .35s ease}
+.seg{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:0 14px;border-radius:9px;font-size:14px;font-weight:500;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s}
+.seg button svg{width:18px;height:18px}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-checked="true"],.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(14,23,38,.08),0 0 0 1px var(--line)}
+:root[data-theme="dark"] .seg button[aria-checked="true"],:root[data-theme="dark"] .seg button[aria-selected="true"]{background:var(--surface-3)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-checked="true"],:root:not([data-theme="light"]) .seg button[aria-selected="true"]{background:var(--surface-3)}}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%;padding:2px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 13px;border-radius:999px;border:1px solid var(--line-2);font-size:13.5px;font-weight:500;color:var(--ink-2);white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"],.chip[aria-checked="true"]{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+.chip-q{font-family:var(--font-q);font-size:17px;min-height:38px}
+.switch{position:relative;width:46px;height:28px;border-radius:14px;background:var(--surface-3);box-shadow:inset 0 0 0 1px var(--line-2);transition:background .18s;flex:0 0 auto}
+.switch::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s}
+.switch[aria-checked="true"]{background:var(--accent);box-shadow:none}
+.switch[aria-checked="true"]::after{transform:translateX(18px)}
+[dir="rtl"] .switch[aria-checked="true"]::after{transform:translateX(-18px)}
+select{appearance:none;-webkit-appearance:none;min-height:40px;padding:0 12px;padding-inline-end:36px;border-radius:var(--r-sm);border:1px solid var(--line-2);background-color:var(--surface);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237A869A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-size:16px;font-size:14.5px;max-width:100%;cursor:pointer}
+[dir="rtl"] select{background-position:left 11px center}
+select:hover{border-color:var(--muted)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line-2);border-radius:var(--r-sm);overflow:hidden;background:var(--surface)}
+.stepper button{width:36px;height:36px;display:grid;place-items:center;font-size:18px;color:var(--ink-2)}
+.stepper button:hover{background:var(--surface-2)}
+.stepper output{min-width:44px;text-align:center;font-variant-numeric:tabular-nums;font-weight:600;direction:ltr;unicode-bidi:isolate}
+.hint{font-size:13px;color:var(--muted);line-height:1.6}
+.note{font-size:13.5px;color:var(--ink-2);background:var(--surface-2);border-radius:var(--r-md);padding:12px 14px;line-height:1.6}
+.kv{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.kv:first-of-type{border-top:0}
+.kv span{color:var(--muted);font-size:14px}
+.kv b{font-weight:600;font-size:16px;font-variant-numeric:tabular-nums;text-align:end}
+.kv b small{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r-xl);background:linear-gradient(180deg,var(--g0) 0%,var(--g1) 58%,var(--g2) 100%);transition:background .8s}
+.hero:not(.is-light){text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.hero-stars{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;transition:opacity .8s}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"dates" "arc" "main";gap:4px;padding:18px 18px 20px}
+.hero-dates{grid-area:dates;display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;font-size:13.5px;font-weight:500}
+.hero-dates span:first-child{opacity:.85}
+.hero-arc{grid-area:arc;margin:0 -6px}
+.hero-arc svg{width:100%;height:auto;direction:ltr;overflow:visible}
+.arc-lbl{font-size:11.5px;font-weight:500;fill:currentColor;opacity:.92}
+.arc-end{font-size:12px;fill:currentColor;opacity:.82}
+.hero-main{grid-area:main;display:flex;align-items:flex-end;justify-content:space-between;gap:10px 18px;flex-wrap:wrap}
+.hero-lbl{font-size:13px;opacity:.8}
+.hero-name{font-size:34px;font-weight:600;line-height:1.15;margin-top:2px}
+.hero-at{font-size:16px;opacity:.88}
+.hero-cd{text-align:end}
+.cd{display:inline-block;direction:ltr;unicode-bidi:isolate;font-size:34px;font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:.3px}
+.hero-note{position:relative;display:flex;align-items:center;gap:10px;margin:0 16px 16px;padding:10px 14px;border-radius:var(--r-md);background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:14px;font-weight:500}
+.hero.is-light .hero-note{background:rgba(255,255,255,.55)}
+.hero-note svg{width:20px;height:20px;flex:0 0 auto}
+@media (min-width:760px){
+  .hero-grid{grid-template-columns:minmax(250px,.95fr) minmax(0,1.3fr);grid-template-areas:"dates dates" "main arc";padding:24px 28px 26px;gap:12px 32px;align-items:center}
+  .hero-main{flex-direction:column;align-items:flex-start;justify-content:center}
+  .hero-name{font-size:46px}
+  .hero-at{font-size:18px}
+  .hero-cd{text-align:start;margin-top:10px}
+  .cd{font-size:44px}
+  .hero-note{margin:0 28px 24px}
+}
+
+/* ---------- prayer times ---------- */
+.prayers{margin-top:16px;padding:6px}
+.pc{display:grid;grid-template-columns:40px minmax(0,1fr) auto auto;grid-template-areas:"ic nm tm act";align-items:center;gap:12px;padding:9px 10px;border-radius:var(--r-md);min-height:58px;position:relative}
+.pc+.pc::before{content:"";position:absolute;inset-inline:62px 10px;top:0;border-top:1px solid var(--line)}
+.pc.is-next::before,.pc.is-next+.pc::before{display:none}
+.pc-ic{grid-area:ic;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);color:var(--ink-2)}
+.pc-ic svg{width:22px;height:22px}
+.pc-nm{grid-area:nm;display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-weight:600;font-size:16px;min-width:0}
+.pc-tag{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.pc-tm{grid-area:tm;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums;unicode-bidi:isolate;white-space:nowrap}
+.pc-act{grid-area:act;display:flex;gap:0}
+.pc-act .ib{width:36px;height:36px}
+.pc.is-minor .pc-nm,.pc.is-minor .pc-tm{font-weight:400;color:var(--muted)}
+.pc.is-minor .pc-ic{background:transparent;color:var(--muted)}
+.pc.is-next{background:var(--accent-soft)}
+.pc.is-next .pc-ic{background:var(--accent);color:var(--accent-ink)}
+.chk svg circle{fill:transparent;stroke:currentColor;transition:fill .15s,stroke .15s}
+.chk svg path{stroke:currentColor}
+.chk[aria-pressed="true"]{color:var(--accent)}
+.chk[aria-pressed="true"] svg circle{fill:var(--accent);stroke:var(--accent)}
+.chk[aria-pressed="true"] svg path{stroke:var(--accent-ink)}
+.bell[aria-pressed="true"]{color:var(--ink-2)}
+@media (min-width:1024px){
+  .prayers{background:transparent;border:0;box-shadow:none;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+  .pc{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ic act" "nm nm" "tm tm";align-items:start;gap:2px;padding:14px 14px 16px;min-height:0;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-1);border-radius:var(--r-lg)}
+  .pc+.pc::before{display:none}
+  .pc-act{margin:-6px -8px 0 0}
+  [dir="rtl"] .pc-act{margin:-6px 0 0 -8px}
+  .pc-nm{margin-top:14px;font-size:15px}
+  .pc-tm{font-size:23px}
+  .pc.is-minor{background:var(--surface-2);box-shadow:none}
+  .pc.is-next{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .pc.is-next .pc-ic{background:rgba(255,255,255,.2);color:inherit}
+  .pc.is-next .pc-tag{background:rgba(255,255,255,.22);color:inherit}
+  .pc.is-next .ib{color:inherit}
+  .pc.is-next .ib:hover{background:rgba(255,255,255,.16)}
+}
+
+/* ---------- today widgets ---------- */
+.widgets{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+.w-adhkar{order:-1}
+@media (min-width:760px){.widgets{grid-template-columns:repeat(2,minmax(0,1fr))}.w-week{grid-column:1/-1}.w-adhkar{order:0}}
+@media (min-width:1180px){.widgets{grid-template-columns:repeat(3,minmax(0,1fr))}.w-week{grid-column:span 2}}
+.widgets .card{display:flex;flex-direction:column}
+.widgets .card>.btn{margin-top:auto}
+.streak{display:flex;align-items:baseline;gap:6px}
+.streak b{font-size:22px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.streak span{font-size:13px;color:var(--muted)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.wd{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)}
+.wd.is-today{color:var(--ink);font-weight:600}
+.ring{position:relative;width:42px;height:42px;display:block}
+.ring svg{width:42px;height:42px;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:12.5px;font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.ring.is-full b{color:var(--accent)}
+.w-adhkar .bar{margin-bottom:18px}
+.w-night .kv b{font-size:18px}
+.wq{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.wq svg{width:68px;height:68px;flex:0 0 auto}
+.wq-deg{display:block;font-size:28px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.wq span{font-size:13px;color:var(--muted)}
+.w-cal p{font-size:15px;font-weight:500}
+.w-cal p+p{font-size:13.5px;color:var(--muted);font-weight:400;margin:2px 0 16px}
+
+/* ---------- qibla ---------- */
+.qibla{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:900px){.qibla{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}}
+.q-compass{display:flex;flex-direction:column;align-items:center;padding:28px 16px 22px}
+#compass{width:min(84vw,400px);height:auto;direction:ltr}
+#compass .c-num{font-size:10.5px;fill:var(--muted);font-weight:500}
+#compass .c-card{font-size:15px;font-weight:700;fill:var(--ink-2)}
+#compass .c-card.is-n{fill:var(--accent)}
+.q-status{margin-top:16px;min-height:28px;font-size:16px;font-weight:600;text-align:center;color:var(--ink-2)}
+.q-status.is-ok{color:var(--accent)}
+.q-info{display:flex;flex-direction:column;gap:16px}
+.q-deg b{display:block;font-size:56px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;text-align:start}
+[dir="rtl"] .q-deg b{text-align:right}
+.q-deg span{display:block;margin-top:6px;color:var(--muted);font-size:14px}
+
+/* ---------- adhkar ---------- */
+.a-wrap{max-width:860px;margin:0 auto}
+.a-tabs{display:flex}
+.a-tabs .seg{width:100%}
+.a-tabs .seg button{flex:1 1 0;padding:0 10px}
+.a-tools{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding:10px 12px 10px 16px;margin-top:12px}
+[dir="rtl"] .a-tools{padding:10px 16px 10px 12px}
+.a-prog{display:flex;align-items:center;gap:12px;flex:1 1 220px;min-width:0}
+.a-prog .bar{flex:1}
+.a-count{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.a-ctrl{display:flex;align-items:center;gap:2px}
+.tsz{font-weight:600;font-size:14px;color:var(--ink-2);direction:ltr}
+.a-done{display:flex;align-items:center;gap:10px;margin-top:12px;padding:14px 16px;border-radius:var(--r-lg);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.a-done svg{width:22px;height:22px;flex:0 0 auto}
+.dk{position:relative;display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-1);padding:20px 22px 14px;margin-top:12px;cursor:pointer;-webkit-user-select:none;user-select:none;transition:border-color .15s,background .2s,transform .08s}
+.dk:hover{border-color:var(--line-2)}
+.dk:active{transform:scale(.996)}
+.dk-ar{font-family:var(--font-q);font-size:var(--dk,24px);line-height:2.05;text-align:right;direction:rtl;color:var(--ink)}
+.dk-ar .ay{color:var(--accent);font-size:.85em}
+.dk-ar .basm{display:block;font-size:.9em;color:var(--ink-2)}
+.dk-tr{margin-top:10px;font-size:14.5px;color:var(--muted);line-height:1.65;text-align:left;direction:ltr}
+.dk-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.dk-ctr{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+.dk-ctr svg{width:26px;height:26px;transform:rotate(-90deg)}
+.dk-ctr .ok{width:22px;height:22px;transform:none}
+.dk.is-done{background:var(--surface-2);box-shadow:none;border-color:transparent}
+.dk.is-done .dk-ar,.dk.is-done .dk-tr{opacity:.5}
+.dk.is-done .dk-ctr{color:var(--accent)}
+.dk.bump .dk-ctr{animation:bump .22s ease-out}
+@keyframes bump{50%{transform:scale(1.15)}}
+
+/* ---------- tasbeeh ---------- */
+.tas{max-width:600px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:4px}
+.tas .chips{width:100%}
+.chips.scroll>:first-child{margin-inline-start:auto}
+.chips.scroll>:last-child{margin-inline-end:auto}
+@media (min-width:760px){.tas{max-width:760px}.tas .chips.scroll{flex-wrap:wrap;justify-content:center;overflow:visible}.chips.scroll>:first-child,.chips.scroll>:last-child{margin-inline:0}}
+.tas-phrase{font-family:var(--font-q);font-size:34px;line-height:1.7;text-align:center;min-height:1.7em}
+.tas-btn{position:relative;width:min(74vw,290px);aspect-ratio:1/1;border-radius:50%;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-2);display:grid;place-items:center;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:transform .08s}
+.tas-btn:active{transform:scale(.97)}
+.tas-btn svg{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);transform:rotate(-90deg)}
+.tas-in{display:flex;flex-direction:column;align-items:center;line-height:1}
+.tas-in b{font-size:68px;font-weight:500;font-variant-numeric:tabular-nums}
+.tas-in small{margin-top:10px;font-size:15px;color:var(--muted);direction:ltr;unicode-bidi:isolate}
+.tas-stats{display:flex;align-items:baseline;gap:8px;color:var(--muted);font-size:14px}
+.tas-stats b{color:var(--ink);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- calendar ---------- */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px}
+.cal-head h2{font-size:18px;text-align:center}
+.cal-head p{font-size:13.5px;color:var(--muted);text-align:center;margin-top:2px}
+.tbl-wrap{margin-top:12px;padding:0;overflow:auto;max-height:calc(100vh - 230px)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:11px 14px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{position:sticky;top:0;z-index:2;background:var(--surface);font-weight:600;color:var(--muted);font-size:12.5px}
+td:first-child,th:first-child{position:sticky;inset-inline-start:0;z-index:1;background:var(--surface);text-align:start}
+th:first-child{z-index:3}
+td:first-child b{font-weight:600;margin-inline-start:4px}
+td.c-h{color:var(--muted);font-size:13px}
+tr:last-child td{border-bottom:0}
+tr.is-fri td:first-child{color:var(--accent)}
+tr.is-today td{background:linear-gradient(var(--accent-soft),var(--accent-soft)),var(--surface);font-weight:600}
+tr.is-today td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+[dir="rtl"] tr.is-today td:first-child{box-shadow:inset -3px 0 0 var(--accent)}
+
+/* ---------- settings ---------- */
+.settings{max-width:780px;margin:0 auto}
+.sgroup{margin-top:26px}
+.sgroup:first-child{margin-top:4px}
+.sgroup>h2{font-size:14px;font-weight:600;color:var(--muted);margin:0 6px 10px}
+.slist{padding:0;overflow:hidden}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;padding:15px 18px;flex-wrap:wrap;border-top:1px solid var(--line)}
+.srow:first-child{border-top:0}
+.srow-t{flex:1 1 240px;min-width:0}
+.srow-l{font-weight:500;font-size:15px}
+.srow-d{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.55}
+.srow-c{flex:0 1 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+.srow-bare .srow-t{display:none}
+.srow-bare .srow-c{flex:1 1 100%}
+.srow-gps .srow-c{flex-direction:column;align-items:flex-start}
+.wa-count{font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.loc-name{font-size:16px;font-weight:600}
+.adj{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px;width:100%}
+@media (min-width:640px){.adj{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.adj-i{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px 8px 12px;border-radius:var(--r-md);background:var(--surface-2)}
+[dir="rtl"] .adj-i{padding:8px 12px 8px 10px}
+.adj-i span{font-size:14px;color:var(--ink-2)}
+.adj-i .stepper{background:var(--surface)}
+.adj-i .stepper button{width:32px;height:32px}
+.adj-i .stepper output{min-width:36px}
+.gps-msg{font-size:13.5px;color:var(--accent);min-height:0}
+.gps-msg:empty{display:none}
+.about{display:flex;gap:16px;align-items:flex-start;padding:18px}
+.about svg{width:52px;height:52px;flex:0 0 auto}
+.about b{font-size:17px}
+.about .hint{margin-top:4px}
+
+/* ---------- sheet ---------- */
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(6,12,22,.46);display:flex;align-items:flex-end;justify-content:center;animation:fade .16s ease-out}
+.scrim[hidden]{display:none}
+.sheet{width:100%;max-width:580px;max-height:min(88vh,740px);background:var(--surface);border-radius:22px 22px 0 0;display:flex;flex-direction:column;gap:10px;padding:10px 16px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:var(--shadow-2);animation:rise .22s ease-out}
+@media (min-width:760px){.scrim{align-items:center;padding:24px}.sheet{border-radius:22px;padding:14px 18px 18px}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;padding:6px 0 2px}
+.sheet-h h2{font-size:18px}
+.search{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border:1px solid var(--line-2);border-radius:var(--r-md);background:var(--surface-2)}
+.search:focus-within{box-shadow:var(--ring);border-color:var(--accent-line)}
+.search svg{width:19px;height:19px;color:var(--muted);flex:0 0 auto}
+.search input{flex:1;min-width:0;border:0;background:transparent;font-size:15.5px}
+.search input:focus-visible{box-shadow:none}
+.search input::-webkit-search-cancel-button{display:none}
+.city-list{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:180px}
+.city-list .cl-h{position:sticky;top:0;z-index:1;padding:10px 10px 6px;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--surface)}
+.city-list button{width:100%;display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:var(--r-sm);text-align:start;font-size:15px}
+.city-list button:hover{background:var(--surface-2)}
+.city-list button[aria-current="true"]{color:var(--accent);font-weight:600}
+.city-list button svg{width:18px;height:18px;margin-inline-start:auto;color:var(--accent)}
+.city-list .empty{padding:24px 10px;color:var(--muted);text-align:center}
+@keyframes fade{from{opacity:0}}
+@keyframes rise{from{transform:translateY(24px);opacity:.6}}
+
+/* ---------- banner ---------- */
+.banner{position:fixed;z-index:50;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100vw - 24px);padding:10px 10px 10px 16px;border-radius:16px;background:var(--ink);color:var(--bg);box-shadow:0 14px 40px rgba(0,0,0,.28);font-weight:500;animation:drop .25s ease-out}
+[dir="rtl"] .banner{padding:10px 16px 10px 10px}
+.banner[hidden]{display:none}
+.banner>svg{width:22px;height:22px;flex:0 0 auto}
+.banner .ib{color:inherit;opacity:.75}
+.banner .ib:hover{background:rgba(127,127,127,.2);opacity:1}
+@keyframes drop{from{transform:translate(-50%,-12px);opacity:0}}
+
+.page{animation:pagein .2s ease-out}
+@keyframes pagein{from{opacity:0;transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (min-width:1024px){
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:8px;border:3px solid var(--bg)}
+  ::-webkit-scrollbar-track{background:transparent}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content" id="view"></main>
+  </div>
+</div>
+<nav class="tabbar" id="tabbar"></nav>
+<div class="scrim" id="sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-h"><h2 id="sheetTitle"></h2><button class="ib" data-close id="sheetX"></button></div>
+    <label class="search"><span id="searchIc"></span><input id="citySearch" type="search" autocomplete="off" spellcheck="false"></label>
+    <button class="btn btn-block" data-act="gps" id="sheetGps"></button>
+    <p class="gps-msg" id="sheetMsg" aria-live="polite"></p>
+    <ul class="city-list" id="cityList"></ul>
+  </div>
+</div>
+<div class="banner" id="banner" role="alert" hidden></div>
+<script>
+'use strict';
+/* =================== i18n =================== */
+const L={
+ar:{appName:'سَمْت',tagline:'مواقيت الصلاة والقبلة والأذكار',
+nav_today:'اليوم',nav_calendar:'التقويم',nav_qibla:'القبلة',nav_adhkar:'الأذكار',nav_tasbeeh:'التسبيح',nav_settings:'الإعدادات',
+fajr:'الفجر',sunrise:'الشروق',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء',jumuah:'الجمعة',
+nextPrayer:'الصلاة القادمة',timeLeft:'الوقت المتبقي',tomorrow:'غداً',nextTag:'القادمة',prayed:'تمّت الصلاة',alert:'التنبيه',
+night:'الليل',midnight:'منتصف الليل',lastThird:'الثلث الأخير',week:'هذا الأسبوع',streak:'أيام متتالية',kahf:'يوم الجمعة — تذكّر قراءة سورة الكهف',
+timetable:'مواقيت الشهر',viewTimetable:'عرض الجدول',openQibla:'افتح البوصلة',continue:'متابعة',
+qiblaDir:'اتجاه القبلة',fromNorth:'درجة من الشمال الحقيقي',distance:'المسافة إلى الكعبة',km:'كم',yourLocation:'موقعك',
+enableCompass:'تفعيل البوصلة الحيّة',compassNA:'البوصلة الحيّة تحتاج إلى هاتف مزوّد بمستشعر اتجاه. يمكنك الاعتماد على الزاوية المعروضة من الشمال.',
+aligned:'أنت الآن باتجاه القبلة',turnRight:'استدر يميناً {d}°',turnLeft:'استدر يساراً {d}°',
+calibrate:'إن بدا الاتجاه غير دقيق فحرّك الهاتف على شكل الرقم 8 لمعايرة البوصلة، وابتعد عن الأجسام المعدنية.',cardinals:'ش,ق,ج,غ',
+morning:'الصباح',evening:'المساء',afterPrayer:'بعد الصلاة',sleep:'النوم',catM:'أذكار الصباح',catE:'أذكار المساء',catP:'أذكار بعد الصلاة',catS:'أذكار النوم',
+translation:'المعنى',textSize:'حجم الخط',resetSection:'البدء من جديد',tapHint:'اضغط على الذكر لعدّه',allDone:'أتممت {c}، تقبّل الله منك.',
+count:'اضغط للعدّ',target:'الهدف',total:'المجموع الكلي',reset:'تصفير',spaceHint:'يمكنك الضغط على مفتاح المسافة للعدّ',
+day:'اليوم',hijri:'الهجري',prevMonth:'الشهر السابق',nextMonth:'الشهر التالي',
+chooseLocation:'اختر موقعك',searchCity:'ابحث عن مدينة أو دولة',useMyLocation:'استخدام موقعي الحالي',locating:'جارٍ تحديد موقعك…',gpsFail:'تعذّر تحديد موقعك. اختر مدينتك من القائمة.',myLocation:'موقعي الحالي',near:'قرب {c}',change:'تغيير',noResults:'لا توجد نتائج مطابقة',
+locGroup:'الموقع',calcGroup:'طريقة الحساب',method:'الجهة المعتمدة',methodAuto:'تلقائي حسب الموقع',anglesDesc:'زاوية الفجر {f}°، وزاوية العشاء {i}°',ishaMinDesc:'زاوية الفجر {f}°، والعشاء بعد المغرب بـ{m} دقيقة (120 في رمضان)',
+asrMethod:'وقت العصر',standard:'الجمهور',hanafi:'الحنفي',asrDesc:'الجمهور: حين يصير ظلّ الشيء مثله. الحنفي: حين يصير مثليه.',
+highLat:'خطوط العرض العليا',hlAngle:'حسب الزاوية',hlMid:'منتصف الليل',hlSeventh:'سُبع الليل',hlNone:'بدون',highLatDesc:'للبلاد التي لا يغيب فيها الشفق صيفاً.',
+adjustments:'ضبط يدوي للأوقات',adjustDesc:'بالدقائق، لمطابقة تقويم مسجدك.',hijriAdj:'ضبط التاريخ الهجري',
+notifGroup:'التنبيهات',enableNotif:'تنبيهات الصلاة',notifDesc:'تصلك التنبيهات ما دام التطبيق مفتوحاً، وفي الخلفية أيضاً بعد السماح بالإشعارات.',perPrayer:'الصلوات المنبَّه لها',preAlert:'تذكير قبل الأذان',off:'بدون',sound:'صوت التنبيه',test:'تجربة التنبيه',
+appearGroup:'اللغة والمظهر',language:'اللغة',theme:'المظهر',auto:'تلقائي',light:'فاتح',dark:'داكن',timeFormat:'تنسيق الوقت',h12:'12 ساعة',h24:'24 ساعة',digits:'الأرقام',
+aboutGroup:'حول التطبيق',aboutText:'يحسب سَمْت المواقيت واتجاه القبلة فلكياً على جهازك دون اتصال بالإنترنت، وتبقى بياناتك على جهازك.',version:'الإصدار',
+alertNow:'حان الآن موعد أذان {p}',alertPre:'بقي {n} على أذان {p}',dismiss:'إغلاق',close:'إغلاق'},
+en:{appName:'Samt',tagline:'Prayer times, Qibla and adhkar',
+nav_today:'Today',nav_calendar:'Timetable',nav_qibla:'Qibla',nav_adhkar:'Adhkar',nav_tasbeeh:'Tasbeeh',nav_settings:'Settings',
+fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha',jumuah:"Jumu'ah",
+nextPrayer:'Next prayer',timeLeft:'Time left',tomorrow:'Tomorrow',nextTag:'Next',prayed:'Mark as prayed',alert:'Alert',
+night:'Night',midnight:'Midnight',lastThird:'Last third',week:'This week',streak:'days in a row',kahf:"It's Friday — remember to read Surat Al-Kahf",
+timetable:'Monthly timetable',viewTimetable:'View timetable',openQibla:'Open compass',continue:'Continue',
+qiblaDir:'Qibla direction',fromNorth:'degrees from true north',distance:'Distance to the Kaaba',km:'km',yourLocation:'Your location',
+enableCompass:'Turn on live compass',compassNA:'The live compass needs a phone with a heading sensor. Use the bearing from north shown here.',
+aligned:'You are facing the Qibla',turnRight:'Turn right {d}°',turnLeft:'Turn left {d}°',
+calibrate:'If the direction looks off, move your phone in a figure eight to calibrate it, away from metal objects.',cardinals:'N,E,S,W',
+morning:'Morning',evening:'Evening',afterPrayer:'After prayer',sleep:'Sleep',catM:'Morning adhkar',catE:'Evening adhkar',catP:'After-prayer adhkar',catS:'Bedtime adhkar',
+translation:'Meaning',textSize:'Text size',resetSection:'Start over',tapHint:'Tap a dhikr to count it',allDone:'You have completed the {c}. May Allah accept it from you.',
+count:'Tap to count',target:'Target',total:'All-time total',reset:'Reset',spaceHint:'Press the space bar to count',
+day:'Date',hijri:'Hijri',prevMonth:'Previous month',nextMonth:'Next month',
+chooseLocation:'Choose your location',searchCity:'Search a city or country',useMyLocation:'Use my current location',locating:'Finding your location…',gpsFail:"Couldn't get your location. Choose your city from the list.",myLocation:'My location',near:'Near {c}',change:'Change',noResults:'No matching places',
+locGroup:'Location',calcGroup:'Calculation',method:'Authority',methodAuto:'Automatic for this location',anglesDesc:'Fajr angle {f}°, Isha angle {i}°',ishaMinDesc:'Fajr angle {f}°, Isha {m} minutes after Maghrib (120 in Ramadan)',
+asrMethod:'Asr time',standard:'Standard',hanafi:'Hanafi',asrDesc:"Standard: when an object's shadow equals its length. Hanafi: twice its length.",
+highLat:'High latitudes',hlAngle:'Angle-based',hlMid:'Middle of the night',hlSeventh:'One-seventh of the night',hlNone:'None',highLatDesc:'For places where twilight persists in summer.',
+adjustments:'Manual adjustments',adjustDesc:"In minutes, to match your mosque's timetable.",hijriAdj:'Hijri date adjustment',
+notifGroup:'Alerts',enableNotif:'Prayer alerts',notifDesc:'Alerts arrive while the app is open, and in the background once notifications are allowed.',perPrayer:'Prayers to alert',preAlert:'Reminder before adhan',off:'None',sound:'Alert sound',test:'Test alert',
+appearGroup:'Language & appearance',language:'Language',theme:'Theme',auto:'Auto',light:'Light',dark:'Dark',timeFormat:'Time format',h12:'12-hour',h24:'24-hour',digits:'Digits',
+aboutGroup:'About',aboutText:'Samt calculates prayer times and the Qibla direction astronomically on your device, with no internet connection. Your data stays on your device.',version:'Version',
+alertNow:'It is time for {p}',alertPre:'{n} until {p}',dismiss:'Dismiss',close:'Close'},
+fr:{appName:'Samt',tagline:'Horaires de prière, Qibla et adhkar',
+nav_today:"Aujourd'hui",nav_calendar:'Calendrier',nav_qibla:'Qibla',nav_adhkar:'Adhkar',nav_tasbeeh:'Tasbih',nav_settings:'Réglages',
+fajr:'Fajr',sunrise:'Lever du soleil',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha',jumuah:'Joumouʿa',
+nextPrayer:'Prochaine prière',timeLeft:'Temps restant',tomorrow:'Demain',nextTag:'Suivante',prayed:'Marquer comme accomplie',alert:'Alerte',
+night:'Nuit',midnight:'Minuit',lastThird:'Dernier tiers',week:'Cette semaine',streak:'jours consécutifs',kahf:'C’est vendredi — pensez à lire la sourate Al-Kahf',
+timetable:'Horaires du mois',viewTimetable:'Voir le calendrier',openQibla:'Ouvrir la boussole',continue:'Continuer',
+qiblaDir:'Direction de la Qibla',fromNorth:'degrés depuis le nord géographique',distance:'Distance jusqu’à la Kaaba',km:'km',yourLocation:'Votre position',
+enableCompass:'Activer la boussole',compassNA:'La boussole en direct nécessite un téléphone doté d’un capteur d’orientation. Utilisez l’angle depuis le nord affiché ici.',
+aligned:'Vous faites face à la Qibla',turnRight:'Tournez à droite de {d}°',turnLeft:'Tournez à gauche de {d}°',
+calibrate:'Si la direction semble fausse, décrivez un 8 avec le téléphone pour calibrer la boussole, loin des objets métalliques.',cardinals:'N,E,S,O',
+morning:'Matin',evening:'Soir',afterPrayer:'Après la prière',sleep:'Coucher',catM:'Adhkar du matin',catE:'Adhkar du soir',catP:'Adhkar après la prière',catS:'Adhkar du coucher',
+translation:'Sens',textSize:'Taille du texte',resetSection:'Recommencer',tapHint:'Touchez un dhikr pour le compter',allDone:'{c} terminés. Qu’Allah les accepte de vous.',
+count:'Touchez pour compter',target:'Objectif',total:'Total cumulé',reset:'Remettre à zéro',spaceHint:'Appuyez sur la barre d’espace pour compter',
+day:'Date',hijri:'Hégire',prevMonth:'Mois précédent',nextMonth:'Mois suivant',
+chooseLocation:'Choisissez votre lieu',searchCity:'Rechercher une ville ou un pays',useMyLocation:'Utiliser ma position actuelle',locating:'Localisation en cours…',gpsFail:'Position introuvable. Choisissez votre ville dans la liste.',myLocation:'Ma position',near:'Près de {c}',change:'Modifier',noResults:'Aucun lieu correspondant',
+locGroup:'Lieu',calcGroup:'Calcul',method:'Autorité',methodAuto:'Automatique selon le lieu',anglesDesc:'Angle du Fajr {f}°, angle de l’Isha {i}°',ishaMinDesc:'Angle du Fajr {f}°, Isha {m} minutes après le Maghrib (120 pendant le Ramadan)',
+asrMethod:'Heure de l’Asr',standard:'Majoritaire',hanafi:'Hanafite',asrDesc:'Majoritaire : l’ombre égale la hauteur de l’objet. Hanafite : le double.',
+highLat:'Hautes latitudes',hlAngle:'Selon l’angle',hlMid:'Milieu de la nuit',hlSeventh:'Septième de la nuit',hlNone:'Aucune',highLatDesc:'Pour les lieux où le crépuscule persiste en été.',
+adjustments:'Ajustements manuels',adjustDesc:'En minutes, pour correspondre au calendrier de votre mosquée.',hijriAdj:'Ajustement de la date hégirienne',
+notifGroup:'Alertes',enableNotif:'Alertes de prière',notifDesc:'Les alertes arrivent tant que l’application est ouverte, et en arrière-plan une fois les notifications autorisées.',perPrayer:'Prières à signaler',preAlert:'Rappel avant l’adhan',off:'Aucun',sound:'Son de l’alerte',test:'Tester l’alerte',
+appearGroup:'Langue et apparence',language:'Langue',theme:'Thème',auto:'Auto',light:'Clair',dark:'Sombre',timeFormat:'Format de l’heure',h12:'12 h',h24:'24 h',digits:'Chiffres',
+aboutGroup:'À propos',aboutText:'Samt calcule les horaires de prière et la direction de la Qibla de manière astronomique sur votre appareil, sans connexion Internet. Vos données restent sur votre appareil.',version:'Version',
+alertNow:'Heure de la prière : {p}',alertPre:'{p} dans {n}',dismiss:'Fermer',close:'Fermer'},
+tr:{appName:'Samt',tagline:'Namaz vakitleri, kıble ve zikirler',
+nav_today:'Bugün',nav_calendar:'İmsakiye',nav_qibla:'Kıble',nav_adhkar:'Zikirler',nav_tasbeeh:'Tesbih',nav_settings:'Ayarlar',
+fajr:'İmsak',sunrise:'Güneş',dhuhr:'Öğle',asr:'İkindi',maghrib:'Akşam',isha:'Yatsı',jumuah:'Cuma',
+nextPrayer:'Sıradaki vakit',timeLeft:'Kalan süre',tomorrow:'Yarın',nextTag:'Sıradaki',prayed:'Kılındı olarak işaretle',alert:'Uyarı',
+night:'Gece',midnight:'Gece yarısı',lastThird:'Son üçte bir',week:'Bu hafta',streak:'gün üst üste',kahf:'Bugün Cuma — Kehf suresini okumayı unutmayın',
+timetable:'Aylık vakitler',viewTimetable:'Takvimi aç',openQibla:'Pusulayı aç',continue:'Devam et',
+qiblaDir:'Kıble yönü',fromNorth:'derece, coğrafi kuzeyden',distance:'Kâbe’ye uzaklık',km:'km',yourLocation:'Konumunuz',
+enableCompass:'Canlı pusulayı aç',compassNA:'Canlı pusula için yön sensörlü bir telefon gerekir. Burada gösterilen kuzeyden açıyı kullanabilirsiniz.',
+aligned:'Kıbleye yöneldiniz',turnRight:'{d}° sağa dönün',turnLeft:'{d}° sola dönün',
+calibrate:'Yön yanlış görünüyorsa telefonu 8 çizerek hareket ettirip pusulayı kalibre edin; metal eşyalardan uzak durun.',cardinals:'K,D,G,B',
+morning:'Sabah',evening:'Akşam',afterPrayer:'Namazdan sonra',sleep:'Uyku',catM:'Sabah zikirleri',catE:'Akşam zikirleri',catP:'Namaz sonrası zikirler',catS:'Uyku öncesi zikirler',
+translation:'Anlamı',textSize:'Yazı boyutu',resetSection:'Baştan başla',tapHint:'Saymak için zikre dokunun',allDone:'{c} tamamlandı. Allah kabul etsin.',
+count:'Saymak için dokunun',target:'Hedef',total:'Toplam',reset:'Sıfırla',spaceHint:'Saymak için boşluk tuşuna basın',
+day:'Tarih',hijri:'Hicri',prevMonth:'Önceki ay',nextMonth:'Sonraki ay',
+chooseLocation:'Konumunuzu seçin',searchCity:'Şehir veya ülke arayın',useMyLocation:'Mevcut konumumu kullan',locating:'Konumunuz bulunuyor…',gpsFail:'Konum alınamadı. Listeden şehrinizi seçin.',myLocation:'Konumum',near:'{c} yakını',change:'Değiştir',noResults:'Eşleşen yer yok',
+locGroup:'Konum',calcGroup:'Hesaplama',method:'Kurum',methodAuto:'Konuma göre otomatik',anglesDesc:'İmsak açısı {f}°, yatsı açısı {i}°',ishaMinDesc:'İmsak açısı {f}°, yatsı akşamdan {m} dakika sonra (Ramazan’da 120)',
+asrMethod:'İkindi vakti',standard:'Cumhur',hanafi:'Hanefi',asrDesc:'Cumhur: gölge cismin boyuna eşit olunca. Hanefi: iki katı olunca.',
+highLat:'Yüksek enlemler',hlAngle:'Açıya göre',hlMid:'Gecenin yarısı',hlSeventh:'Gecenin yedide biri',hlNone:'Yok',highLatDesc:'Yazın alacakaranlığın sürdüğü yerler için.',
+adjustments:'Elle düzeltme',adjustDesc:'Dakika olarak; camiinizin takvimine uydurmak için.',hijriAdj:'Hicri tarih düzeltmesi',
+notifGroup:'Uyarılar',enableNotif:'Vakit uyarıları',notifDesc:'Uyarılar uygulama açıkken gelir; bildirimlere izin verildiğinde arka planda da.',perPrayer:'Uyarı verilecek vakitler',preAlert:'Ezandan önce hatırlat',off:'Yok',sound:'Uyarı sesi',test:'Uyarıyı dene',
+appearGroup:'Dil ve görünüm',language:'Dil',theme:'Tema',auto:'Otomatik',light:'Açık',dark:'Koyu',timeFormat:'Saat biçimi',h12:'12 saat',h24:'24 saat',digits:'Rakamlar',
+aboutGroup:'Hakkında',aboutText:'Samt, namaz vakitlerini ve kıble yönünü internet bağlantısı olmadan cihazınızda astronomik olarak hesaplar. Verileriniz cihazınızda kalır.',version:'Sürüm',
+alertNow:'{p} vakti girdi',alertPre:'{p} vaktine {n} kaldı',dismiss:'Kapat',close:'Kapat'},
+ur:{appName:'سَمْت',tagline:'اوقاتِ نماز، قبلہ اور اذکار',
+nav_today:'آج',nav_calendar:'نقشۂ اوقات',nav_qibla:'قبلہ',nav_adhkar:'اذکار',nav_tasbeeh:'تسبیح',nav_settings:'ترتیبات',
+fajr:'فجر',sunrise:'طلوعِ آفتاب',dhuhr:'ظہر',asr:'عصر',maghrib:'مغرب',isha:'عشاء',jumuah:'جمعہ',
+nextPrayer:'اگلی نماز',timeLeft:'باقی وقت',tomorrow:'کل',nextTag:'اگلی',prayed:'ادا شدہ نشان لگائیں',alert:'اطلاع',
+night:'رات',midnight:'نصف شب',lastThird:'آخری تہائی',week:'یہ ہفتہ',streak:'مسلسل دن',kahf:'آج جمعہ ہے — سورۂ کہف پڑھنا یاد رکھیں',
+timetable:'ماہانہ اوقات',viewTimetable:'نقشہ دیکھیں',openQibla:'قطب نما کھولیں',continue:'جاری رکھیں',
+qiblaDir:'قبلہ کی سمت',fromNorth:'درجے، حقیقی شمال سے',distance:'کعبہ تک فاصلہ',km:'کلومیٹر',yourLocation:'آپ کا مقام',
+enableCompass:'لائیو قطب نما چلائیں',compassNA:'لائیو قطب نما کے لیے سمت سینسر والا فون درکار ہے۔ یہاں دکھایا گیا شمال سے زاویہ استعمال کریں۔',
+aligned:'آپ کا رخ قبلہ کی طرف ہے',turnRight:'{d}° دائیں مڑیں',turnLeft:'{d}° بائیں مڑیں',
+calibrate:'اگر سمت درست نہ لگے تو فون کو 8 کی شکل میں حرکت دے کر قطب نما کیلیبریٹ کریں، اور دھاتی اشیاء سے دور رہیں۔',cardinals:'N,E,S,W',
+morning:'صبح',evening:'شام',afterPrayer:'نماز کے بعد',sleep:'سونے سے پہلے',catM:'صبح کے اذکار',catE:'شام کے اذکار',catP:'نماز کے بعد کے اذکار',catS:'سونے کے اذکار',
+translation:'مفہوم',textSize:'متن کا سائز',resetSection:'دوبارہ شروع کریں',tapHint:'گننے کے لیے ذکر پر ٹیپ کریں',allDone:'آپ نے {c} مکمل کر لیے۔ اللہ قبول فرمائے۔',
+count:'گننے کے لیے دبائیں',target:'ہدف',total:'کل تعداد',reset:'صفر کریں',spaceHint:'گننے کے لیے اسپیس بار دبائیں',
+day:'تاریخ',hijri:'ہجری',prevMonth:'پچھلا مہینہ',nextMonth:'اگلا مہینہ',
+chooseLocation:'اپنا مقام منتخب کریں',searchCity:'شہر یا ملک تلاش کریں',useMyLocation:'میرا موجودہ مقام استعمال کریں',locating:'آپ کا مقام تلاش ہو رہا ہے…',gpsFail:'مقام معلوم نہیں ہو سکا۔ فہرست سے اپنا شہر منتخب کریں۔',myLocation:'میرا مقام',near:'{c} کے قریب',change:'تبدیل کریں',noResults:'کوئی مقام نہیں ملا',
+locGroup:'مقام',calcGroup:'حساب',method:'ادارہ',methodAuto:'مقام کے مطابق خودکار',anglesDesc:'فجر کا زاویہ {f}°، عشاء کا زاویہ {i}°',ishaMinDesc:'فجر کا زاویہ {f}°، عشاء مغرب کے {m} منٹ بعد (رمضان میں 120)',
+asrMethod:'عصر کا وقت',standard:'جمہور',hanafi:'حنفی',asrDesc:'جمہور: جب سایہ چیز کے برابر ہو۔ حنفی: جب دوگنا ہو۔',
+highLat:'بلند عرض بلد',hlAngle:'زاویے کے مطابق',hlMid:'نصف شب',hlSeventh:'رات کا ساتواں حصہ',hlNone:'کوئی نہیں',highLatDesc:'ان مقامات کے لیے جہاں گرمیوں میں شفق غائب نہیں ہوتی۔',
+adjustments:'دستی تبدیلی',adjustDesc:'منٹوں میں، اپنی مسجد کے نقشے سے ملانے کے لیے۔',hijriAdj:'ہجری تاریخ میں تبدیلی',
+notifGroup:'اطلاعات',enableNotif:'نماز کی اطلاعات',notifDesc:'اطلاعات اس وقت آتی ہیں جب ایپ کھلی ہو، اور اجازت دینے پر پس منظر میں بھی۔',perPrayer:'جن نمازوں کی اطلاع ہو',preAlert:'اذان سے پہلے یاد دہانی',off:'کوئی نہیں',sound:'اطلاع کی آواز',test:'اطلاع آزمائیں',
+appearGroup:'زبان اور ظاہری شکل',language:'زبان',theme:'تھیم',auto:'خودکار',light:'روشن',dark:'تاریک',timeFormat:'وقت کا انداز',h12:'12 گھنٹے',h24:'24 گھنٹے',digits:'ہندسے',
+aboutGroup:'تعارف',aboutText:'سَمْت نماز کے اوقات اور قبلے کی سمت انٹرنیٹ کے بغیر آپ کے آلے پر فلکیاتی طور پر حساب کرتا ہے۔ آپ کا ڈیٹا آپ ہی کے آلے پر رہتا ہے۔',version:'ورژن',
+alertNow:'{p} کا وقت ہو گیا',alertPre:'{p} میں {n} باقی',dismiss:'بند کریں',close:'بند کریں'},
+id:{appName:'Samt',tagline:'Jadwal salat, kiblat, dan dzikir',
+nav_today:'Hari ini',nav_calendar:'Jadwal',nav_qibla:'Kiblat',nav_adhkar:'Dzikir',nav_tasbeeh:'Tasbih',nav_settings:'Pengaturan',
+fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya',jumuah:'Jumat',
+nextPrayer:'Salat berikutnya',timeLeft:'Sisa waktu',tomorrow:'Besok',nextTag:'Berikutnya',prayed:'Tandai sudah salat',alert:'Pengingat',
+night:'Malam',midnight:'Tengah malam',lastThird:'Sepertiga akhir',week:'Minggu ini',streak:'hari berturut-turut',kahf:'Hari Jumat — jangan lupa membaca Surah Al-Kahfi',
+timetable:'Jadwal bulanan',viewTimetable:'Lihat jadwal',openQibla:'Buka kompas',continue:'Lanjutkan',
+qiblaDir:'Arah kiblat',fromNorth:'derajat dari utara sejati',distance:'Jarak ke Ka’bah',km:'km',yourLocation:'Lokasi Anda',
+enableCompass:'Nyalakan kompas langsung',compassNA:'Kompas langsung memerlukan ponsel dengan sensor arah. Gunakan sudut dari utara yang ditampilkan di sini.',
+aligned:'Anda menghadap kiblat',turnRight:'Putar ke kanan {d}°',turnLeft:'Putar ke kiri {d}°',
+calibrate:'Jika arah tampak keliru, gerakkan ponsel membentuk angka 8 untuk kalibrasi, jauh dari benda logam.',cardinals:'U,T,S,B',
+morning:'Pagi',evening:'Petang',afterPrayer:'Setelah salat',sleep:'Tidur',catM:'Dzikir pagi',catE:'Dzikir petang',catP:'Dzikir setelah salat',catS:'Dzikir sebelum tidur',
+translation:'Makna',textSize:'Ukuran teks',resetSection:'Mulai lagi',tapHint:'Ketuk dzikir untuk menghitung',allDone:'{c} sudah selesai. Semoga Allah menerimanya.',
+count:'Ketuk untuk menghitung',target:'Target',total:'Total keseluruhan',reset:'Nolkan',spaceHint:'Tekan spasi untuk menghitung',
+day:'Tanggal',hijri:'Hijriah',prevMonth:'Bulan sebelumnya',nextMonth:'Bulan berikutnya',
+chooseLocation:'Pilih lokasi Anda',searchCity:'Cari kota atau negara',useMyLocation:'Gunakan lokasi saya saat ini',locating:'Mencari lokasi Anda…',gpsFail:'Lokasi tidak didapat. Pilih kota Anda dari daftar.',myLocation:'Lokasi saya',near:'Dekat {c}',change:'Ubah',noResults:'Tidak ada tempat yang cocok',
+locGroup:'Lokasi',calcGroup:'Perhitungan',method:'Otoritas',methodAuto:'Otomatis sesuai lokasi',anglesDesc:'Sudut Subuh {f}°, sudut Isya {i}°',ishaMinDesc:'Sudut Subuh {f}°, Isya {m} menit setelah Maghrib (120 saat Ramadan)',
+asrMethod:'Waktu Ashar',standard:'Jumhur',hanafi:'Hanafi',asrDesc:'Jumhur: bayangan sama dengan tinggi benda. Hanafi: dua kalinya.',
+highLat:'Lintang tinggi',hlAngle:'Berdasarkan sudut',hlMid:'Tengah malam',hlSeventh:'Sepertujuh malam',hlNone:'Tidak ada',highLatDesc:'Untuk tempat yang senjanya bertahan di musim panas.',
+adjustments:'Penyesuaian manual',adjustDesc:'Dalam menit, agar sesuai jadwal masjid Anda.',hijriAdj:'Penyesuaian tanggal Hijriah',
+notifGroup:'Pengingat',enableNotif:'Pengingat salat',notifDesc:'Pengingat muncul selama aplikasi terbuka, dan di latar belakang setelah notifikasi diizinkan.',perPrayer:'Salat yang diingatkan',preAlert:'Pengingat sebelum azan',off:'Tidak ada',sound:'Suara pengingat',test:'Uji pengingat',
+appearGroup:'Bahasa & tampilan',language:'Bahasa',theme:'Tema',auto:'Otomatis',light:'Terang',dark:'Gelap',timeFormat:'Format waktu',h12:'12 jam',h24:'24 jam',digits:'Angka',
+aboutGroup:'Tentang',aboutText:'Samt menghitung jadwal salat dan arah kiblat secara astronomis di perangkat Anda tanpa koneksi internet. Data Anda tetap di perangkat Anda.',version:'Versi',
+alertNow:'Waktunya salat {p}',alertPre:'{n} lagi menuju {p}',dismiss:'Tutup',close:'Tutup'}
+};
+const LANGS=[['ar','العربية'],['en','English'],['fr','Français'],['tr','Türkçe'],['ur','اردو'],['id','Bahasa Indonesia']];
+const RTL=new Set(['ar','ur']);
+
+/* =================== calculation authorities =================== */
+const METHODS={
+ mwl:{f:18,i:17,ar:'رابطة العالم الإسلامي',en:'Muslim World League'},
+ makkah:{f:18.5,im:90,ar:'أم القرى، مكة المكرمة',en:'Umm al-Qura, Makkah'},
+ dubai:{f:18.2,i:18.2,ar:'الإمارات، الهيئة العامة للشؤون الإسلامية',en:'UAE, General Authority of Islamic Affairs'},
+ qatar:{f:18,im:90,ar:'قطر، وزارة الأوقاف',en:'Qatar, Ministry of Awqaf'},
+ kuwait:{f:18,i:17.5,ar:'الكويت، وزارة الأوقاف',en:'Kuwait, Ministry of Awqaf'},
+ jordan:{f:18,i:18,ar:'الأردن، وزارة الأوقاف',en:'Jordan, Ministry of Awqaf'},
+ egypt:{f:19.5,i:17.5,ar:'الهيئة المصرية العامة للمساحة',en:'Egyptian General Authority of Survey'},
+ karachi:{f:18,i:18,ar:'جامعة العلوم الإسلامية، كراتشي',en:'University of Islamic Sciences, Karachi'},
+ turkey:{f:18,i:17,ar:'تركيا، رئاسة الشؤون الدينية',en:'Türkiye, Diyanet'},
+ morocco:{f:19,i:17,ar:'المغرب، وزارة الأوقاف',en:'Morocco, Ministry of Habous'},
+ algeria:{f:18,i:17,ar:'الجزائر، وزارة الشؤون الدينية',en:'Algeria, Ministry of Religious Affairs'},
+ tunisia:{f:18,i:18,ar:'تونس، وزارة الشؤون الدينية',en:'Tunisia, Ministry of Religious Affairs'},
+ singapore:{f:20,i:18,ar:'سنغافورة وماليزيا',en:'Singapore & Malaysia (MUIS, JAKIM)'},
+ indonesia:{f:20,i:18,ar:'إندونيسيا، وزارة الشؤون الدينية',en:'Indonesia, Kemenag'},
+ isna:{f:15,i:15,ar:'الجمعية الإسلامية لأمريكا الشمالية',en:'Islamic Society of North America'},
+ uoif:{f:12,i:12,ar:'اتحاد المنظمات الإسلامية في فرنسا',en:'France, UOIF'}
+};
+
+/* =================== places: [id, English, Arabic, country, lat, lng, timezone, method] =================== */
+const CITIES=[
+['makkah','Makkah','مكة المكرمة','SA',21.4225,39.8262,'Asia/Riyadh','makkah'],
+['madinah','Madinah','المدينة المنورة','SA',24.4686,39.6142,'Asia/Riyadh','makkah'],
+['riyadh','Riyadh','الرياض','SA',24.7136,46.6753,'Asia/Riyadh','makkah'],
+['jeddah','Jeddah','جدة','SA',21.5433,39.1728,'Asia/Riyadh','makkah'],
+['dammam','Dammam','الدمام','SA',26.4207,50.0888,'Asia/Riyadh','makkah'],
+['taif','Taif','الطائف','SA',21.2703,40.4158,'Asia/Riyadh','makkah'],
+['abha','Abha','أبها','SA',18.2164,42.5053,'Asia/Riyadh','makkah'],
+['dubai','Dubai','دبي','AE',25.2048,55.2708,'Asia/Dubai','dubai'],
+['abudhabi','Abu Dhabi','أبوظبي','AE',24.4539,54.3773,'Asia/Dubai','dubai'],
+['sharjah','Sharjah','الشارقة','AE',25.3463,55.4209,'Asia/Dubai','dubai'],
+['alain','Al Ain','العين','AE',24.2075,55.7447,'Asia/Dubai','dubai'],
+['rak','Ras Al Khaimah','رأس الخيمة','AE',25.8007,55.9762,'Asia/Dubai','dubai'],
+['doha','Doha','الدوحة','QA',25.2854,51.531,'Asia/Qatar','qatar'],
+['kuwait','Kuwait City','مدينة الكويت','KW',29.3759,47.9774,'Asia/Kuwait','kuwait'],
+['manama','Manama','المنامة','BH',26.2285,50.586,'Asia/Bahrain','mwl'],
+['muscat','Muscat','مسقط','OM',23.588,58.3829,'Asia/Muscat','mwl'],
+['salalah','Salalah','صلالة','OM',17.0151,54.0924,'Asia/Muscat','mwl'],
+['sanaa','Sanaa','صنعاء','YE',15.3694,44.191,'Asia/Aden','mwl'],
+['aden','Aden','عدن','YE',12.7855,45.0187,'Asia/Aden','mwl'],
+['amman','Amman','عمّان','JO',31.9539,35.9106,'Asia/Amman','jordan'],
+['zarqa','Zarqa','الزرقاء','JO',32.0728,36.088,'Asia/Amman','jordan'],
+['irbid','Irbid','إربد','JO',32.5556,35.85,'Asia/Amman','jordan'],
+['aqaba','Aqaba','العقبة','JO',29.5321,35.0063,'Asia/Amman','jordan'],
+['jerusalem','Jerusalem','القدس','PS',31.7767,35.2345,'Asia/Hebron','jordan'],
+['gaza','Gaza','غزة','PS',31.5017,34.4668,'Asia/Gaza','egypt'],
+['ramallah','Ramallah','رام الله','PS',31.9038,35.2034,'Asia/Hebron','jordan'],
+['nablus','Nablus','نابلس','PS',32.2211,35.2544,'Asia/Hebron','jordan'],
+['hebron','Hebron','الخليل','PS',31.5326,35.0998,'Asia/Hebron','jordan'],
+['beirut','Beirut','بيروت','LB',33.8938,35.5018,'Asia/Beirut','mwl'],
+['damascus','Damascus','دمشق','SY',33.5138,36.2765,'Asia/Damascus','egypt'],
+['aleppo','Aleppo','حلب','SY',36.2021,37.1343,'Asia/Damascus','egypt'],
+['baghdad','Baghdad','بغداد','IQ',33.3152,44.3661,'Asia/Baghdad','mwl'],
+['basra','Basra','البصرة','IQ',30.5085,47.7804,'Asia/Baghdad','mwl'],
+['mosul','Mosul','الموصل','IQ',36.335,43.1189,'Asia/Baghdad','mwl'],
+['erbil','Erbil','أربيل','IQ',36.1901,44.0091,'Asia/Baghdad','mwl'],
+['cairo','Cairo','القاهرة','EG',30.0444,31.2357,'Africa/Cairo','egypt'],
+['alexandria','Alexandria','الإسكندرية','EG',31.2001,29.9187,'Africa/Cairo','egypt'],
+['aswan','Aswan','أسوان','EG',24.0889,32.8998,'Africa/Cairo','egypt'],
+['khartoum','Khartoum','الخرطوم','SD',15.5007,32.5599,'Africa/Khartoum','egypt'],
+['tripoli','Tripoli','طرابلس','LY',32.8872,13.1913,'Africa/Tripoli','egypt'],
+['benghazi','Benghazi','بنغازي','LY',32.1167,20.0667,'Africa/Tripoli','egypt'],
+['tunis','Tunis','تونس','TN',36.8065,10.1815,'Africa/Tunis','tunisia'],
+['sfax','Sfax','صفاقس','TN',34.7406,10.7603,'Africa/Tunis','tunisia'],
+['algiers','Algiers','الجزائر العاصمة','DZ',36.7538,3.0588,'Africa/Algiers','algeria'],
+['oran','Oran','وهران','DZ',35.6971,-0.6308,'Africa/Algiers','algeria'],
+['constantine','Constantine','قسنطينة','DZ',36.365,6.6147,'Africa/Algiers','algeria'],
+['casablanca','Casablanca','الدار البيضاء','MA',33.5731,-7.5898,'Africa/Casablanca','morocco'],
+['rabat','Rabat','الرباط','MA',34.0209,-6.8416,'Africa/Casablanca','morocco'],
+['marrakesh','Marrakesh','مراكش','MA',31.6295,-7.9811,'Africa/Casablanca','morocco'],
+['fez','Fez','فاس','MA',34.0181,-5.0078,'Africa/Casablanca','morocco'],
+['nouakchott','Nouakchott','نواكشوط','MR',18.0735,-15.9582,'Africa/Nouakchott','mwl'],
+['mogadishu','Mogadishu','مقديشو','SO',2.0469,45.3182,'Africa/Mogadishu','mwl'],
+['djibouti','Djibouti','جيبوتي','DJ',11.5721,43.1456,'Africa/Djibouti','mwl'],
+['istanbul','Istanbul','إسطنبول','TR',41.0082,28.9784,'Europe/Istanbul','turkey'],
+['ankara','Ankara','أنقرة','TR',39.9334,32.8597,'Europe/Istanbul','turkey'],
+['izmir','Izmir','إزمير','TR',38.4237,27.1428,'Europe/Istanbul','turkey'],
+['konya','Konya','قونية','TR',37.8746,32.4932,'Europe/Istanbul','turkey'],
+['tehran','Tehran','طهران','IR',35.6892,51.389,'Asia/Tehran','mwl'],
+['baku','Baku','باكو','AZ',40.4093,49.8671,'Asia/Baku','mwl'],
+['tashkent','Tashkent','طشقند','UZ',41.2995,69.2401,'Asia/Tashkent','mwl'],
+['almaty','Almaty','ألماتي','KZ',43.222,76.8512,'Asia/Almaty','mwl'],
+['kabul','Kabul','كابل','AF',34.5553,69.2075,'Asia/Kabul','karachi'],
+['karachi','Karachi','كراتشي','PK',24.8607,67.0011,'Asia/Karachi','karachi'],
+['lahore','Lahore','لاهور','PK',31.5204,74.3587,'Asia/Karachi','karachi'],
+['islamabad','Islamabad','إسلام آباد','PK',33.6844,73.0479,'Asia/Karachi','karachi'],
+['peshawar','Peshawar','بيشاور','PK',34.0151,71.5249,'Asia/Karachi','karachi'],
+['delhi','New Delhi','نيودلهي','IN',28.6139,77.209,'Asia/Kolkata','karachi'],
+['mumbai','Mumbai','مومباي','IN',19.076,72.8777,'Asia/Kolkata','karachi'],
+['hyderabad','Hyderabad','حيدر آباد','IN',17.385,78.4867,'Asia/Kolkata','karachi'],
+['dhaka','Dhaka','دكا','BD',23.8103,90.4125,'Asia/Dhaka','karachi'],
+['colombo','Colombo','كولومبو','LK',6.9271,79.8612,'Asia/Colombo','mwl'],
+['male','Malé','ماليه','MV',4.1755,73.5093,'Indian/Maldives','mwl'],
+['jakarta','Jakarta','جاكرتا','ID',-6.2088,106.8456,'Asia/Jakarta','indonesia'],
+['surabaya','Surabaya','سورابايا','ID',-7.2575,112.7521,'Asia/Jakarta','indonesia'],
+['medan','Medan','ميدان','ID',3.5952,98.6722,'Asia/Jakarta','indonesia'],
+['kl','Kuala Lumpur','كوالالمبور','MY',3.139,101.6869,'Asia/Kuala_Lumpur','singapore'],
+['singapore','Singapore','سنغافورة','SG',1.3521,103.8198,'Asia/Singapore','singapore'],
+['bsb','Bandar Seri Begawan','بندر سري بكاوان','BN',4.9031,114.9398,'Asia/Brunei','singapore'],
+['bangkok','Bangkok','بانكوك','TH',13.7563,100.5018,'Asia/Bangkok','mwl'],
+['manila','Manila','مانيلا','PH',14.5995,120.9842,'Asia/Manila','mwl'],
+['lagos','Lagos','لاغوس','NG',6.5244,3.3792,'Africa/Lagos','mwl'],
+['kano','Kano','كانو','NG',12.0022,8.592,'Africa/Lagos','mwl'],
+['dakar','Dakar','داكار','SN',14.7167,-17.4677,'Africa/Dakar','mwl'],
+['nairobi','Nairobi','نيروبي','KE',-1.2921,36.8219,'Africa/Nairobi','mwl'],
+['addis','Addis Ababa','أديس أبابا','ET',9.03,38.74,'Africa/Addis_Ababa','mwl'],
+['johannesburg','Johannesburg','جوهانسبرغ','ZA',-26.2041,28.0473,'Africa/Johannesburg','mwl'],
+['capetown','Cape Town','كيب تاون','ZA',-33.9249,18.4241,'Africa/Johannesburg','mwl'],
+['london','London','لندن','GB',51.5074,-0.1278,'Europe/London','mwl'],
+['birmingham','Birmingham','برمنغهام','GB',52.4862,-1.8904,'Europe/London','mwl'],
+['manchester','Manchester','مانشستر','GB',53.4808,-2.2426,'Europe/London','mwl'],
+['paris','Paris','باريس','FR',48.8566,2.3522,'Europe/Paris','mwl'],
+['marseille','Marseille','مرسيليا','FR',43.2965,5.3698,'Europe/Paris','mwl'],
+['brussels','Brussels','بروكسل','BE',50.8503,4.3517,'Europe/Brussels','mwl'],
+['amsterdam','Amsterdam','أمستردام','NL',52.3676,4.9041,'Europe/Amsterdam','mwl'],
+['berlin','Berlin','برلين','DE',52.52,13.405,'Europe/Berlin','mwl'],
+['munich','Munich','ميونخ','DE',48.1351,11.582,'Europe/Berlin','mwl'],
+['vienna','Vienna','فيينا','AT',48.2082,16.3738,'Europe/Vienna','mwl'],
+['rome','Rome','روما','IT',41.9028,12.4964,'Europe/Rome','mwl'],
+['madrid','Madrid','مدريد','ES',40.4168,-3.7038,'Europe/Madrid','mwl'],
+['stockholm','Stockholm','ستوكهولم','SE',59.3293,18.0686,'Europe/Stockholm','mwl'],
+['oslo','Oslo','أوسلو','NO',59.9139,10.7522,'Europe/Oslo','mwl'],
+['copenhagen','Copenhagen','كوبنهاغن','DK',55.6761,12.5683,'Europe/Copenhagen','mwl'],
+['moscow','Moscow','موسكو','RU',55.7558,37.6173,'Europe/Moscow','mwl'],
+['kazan','Kazan','قازان','RU',55.7963,49.1088,'Europe/Moscow','mwl'],
+['sarajevo','Sarajevo','سراييفو','BA',43.8563,18.4131,'Europe/Sarajevo','mwl'],
+['newyork','New York','نيويورك','US',40.7128,-74.006,'America/New_York','isna'],
+['washington','Washington','واشنطن','US',38.9072,-77.0369,'America/New_York','isna'],
+['chicago','Chicago','شيكاغو','US',41.8781,-87.6298,'America/Chicago','isna'],
+['dearborn','Dearborn','ديربورن','US',42.3223,-83.1763,'America/Detroit','isna'],
+['houston','Houston','هيوستن','US',29.7604,-95.3698,'America/Chicago','isna'],
+['losangeles','Los Angeles','لوس أنجلوس','US',34.0522,-118.2437,'America/Los_Angeles','isna'],
+['toronto','Toronto','تورونتو','CA',43.6532,-79.3832,'America/Toronto','isna'],
+['montreal','Montreal','مونتريال','CA',45.5017,-73.5673,'America/Toronto','isna'],
+['saopaulo','São Paulo','ساو باولو','BR',-23.5505,-46.6333,'America/Sao_Paulo','mwl'],
+['buenosaires','Buenos Aires','بوينس آيرس','AR',-34.6037,-58.3816,'America/Argentina/Buenos_Aires','mwl'],
+['sydney','Sydney','سيدني','AU',-33.8688,151.2093,'Australia/Sydney','mwl'],
+['melbourne','Melbourne','ملبورن','AU',-37.8136,144.9631,'Australia/Melbourne','mwl'],
+['auckland','Auckland','أوكلاند','NZ',-36.8485,174.7633,'Pacific/Auckland','mwl']
+];
+const CITY=Object.fromEntries(CITIES.map(c=>[c[0],c]));
+
+/* =================== adhkar =================== */
+const AR_DIGITS=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const AYA=n=>` <span class="ay">﴿${AR_DIGITS(n)}﴾</span> `;
+const BASM='<span class="basm">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>';
+const surah=v=>BASM+v.map((a,i)=>a+AYA(i+1)).join('');
+const SRC={
+ bukhari:['رواه البخاري','Al-Bukhari'],muslim:['رواه مسلم','Muslim'],bm:['متفق عليه','Al-Bukhari and Muslim'],
+ abudawud:['رواه أبو داود','Abu Dawud'],tirmidhi:['رواه الترمذي','At-Tirmidhi'],adt:['رواه أبو داود والترمذي','Abu Dawud and At-Tirmidhi'],
+ nasai:['رواه النسائي','An-Nasa’i'],adn:['رواه أبو داود والنسائي','Abu Dawud and An-Nasa’i'],hakim:['رواه الحاكم','Al-Hakim'],
+ kursi:['سورة البقرة، الآية ٢٥٥','Al-Baqarah 2:255'],baqarah:['سورة البقرة، الآيتان ٢٨٥–٢٨٦','Al-Baqarah 2:285–286'],
+ ikhlas:['سورة الإخلاص','Surat Al-Ikhlas'],falaq:['سورة الفلق','Surat Al-Falaq'],nas:['سورة الناس','Surat An-Nas']
+};
+const ADH={
+kursi:{n:1,s:'kursi',ar:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ'+AYA(255),
+ en:'Ayat al-Kursi: Allah — there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep…'},
+ikhlas:{n:3,s:'ikhlas',ar:surah(['قُلْ هُوَ اللَّهُ أَحَدٌ','اللَّهُ الصَّمَدُ','لَمْ يَلِدْ وَلَمْ يُولَدْ','وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ']),
+ en:'Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born, and there is none comparable to Him.'},
+falaq:{n:3,s:'falaq',ar:surah(['قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ','مِن شَرِّ مَا خَلَقَ','وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ','وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ','وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ']),
+ en:'Say: I seek refuge in the Lord of daybreak, from the evil of what He created, from the evil of darkness when it settles, from the evil of those who blow on knots, and from the evil of an envier when he envies.'},
+nas:{n:3,s:'nas',ar:surah(['قُلْ أَعُوذُ بِرَبِّ النَّاسِ','مَلِكِ النَّاسِ','إِلَٰهِ النَّاسِ','مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ','الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ','مِنَ الْجِنَّةِ وَالنَّاسِ']),
+ en:'Say: I seek refuge in the Lord of mankind, the King of mankind, the God of mankind, from the evil of the retreating whisperer who whispers in the hearts of mankind, from among jinn and mankind.'},
+asbahna:{n:1,s:'muslim',ar:'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ',
+ en:'We have entered the morning and all sovereignty belongs to Allah… My Lord, I ask You for the good of this day and what follows it, and I seek refuge in You from the evil of this day and what follows it. My Lord, I seek refuge in You from laziness and the misery of old age, and from punishment in the Fire and in the grave.'},
+amsayna:{n:1,s:'muslim',ar:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ',
+ en:'We have entered the evening and all sovereignty belongs to Allah… My Lord, I ask You for the good of this night and what follows it, and I seek refuge in You from the evil of this night and what follows it. My Lord, I seek refuge in You from laziness and the misery of old age, and from punishment in the Fire and in the grave.'},
+bika_m:{n:1,s:'tirmidhi',ar:'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ',
+ en:'O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.'},
+bika_e:{n:1,s:'tirmidhi',ar:'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ',
+ en:'O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is the final return.'},
+sayyid:{n:1,s:'bukhari',ar:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ',
+ en:'The master supplication for forgiveness: O Allah, You are my Lord; there is no deity except You. You created me and I am Your servant, and I keep Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favour upon me and I acknowledge my sin, so forgive me, for none forgives sins except You.'},
+afini:{n:3,s:'abudawud',ar:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ',
+ en:'O Allah, grant me well-being in my body, my hearing and my sight; there is no deity except You. O Allah, I seek refuge in You from disbelief and poverty, and from the punishment of the grave; there is no deity except You.'},
+hayy:{n:1,s:'hakim',ar:'يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَىٰ نَفْسِي طَرْفَةَ عَيْنٍ',
+ en:'O Ever-Living, O Sustainer, by Your mercy I seek help. Set right all my affairs and do not leave me to myself even for the blink of an eye.'},
+bismillah:{n:3,s:'adt',ar:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ',
+ en:'In the name of Allah, with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, the All-Knowing.'},
+radeetu:{n:3,s:'adt',ar:'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا',
+ en:'I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet.'},
+hasbi:{n:7,s:'abudawud',ar:'حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ، وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',
+ en:'Allah is sufficient for me; there is no deity except Him. In Him I put my trust, and He is the Lord of the Mighty Throne.'},
+kalimat:{n:3,s:'muslim',ar:'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+ en:'I seek refuge in the perfect words of Allah from the evil of what He has created.'},
+tahlil10:{n:10,s:'nasai',ar:'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+ en:'There is no deity except Allah alone, without partner. His is the sovereignty and His is the praise, and He is capable of all things.'},
+subhan100:{n:100,s:'muslim',ar:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',en:'Glory be to Allah and praise be to Him.'},
+p_istighfar:{n:3,s:'muslim',ar:'أَسْتَغْفِرُ اللَّهَ',en:'I seek the forgiveness of Allah.'},
+p_salam:{n:1,s:'muslim',ar:'اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ',
+ en:'O Allah, You are Peace and from You comes peace. Blessed are You, O Possessor of majesty and honour.'},
+p_tahlil:{n:1,s:'bm',ar:'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ',
+ en:'There is no deity except Allah alone, without partner… O Allah, none can withhold what You give, none can give what You withhold, and no wealth avails its owner against You.'},
+p_sub:{n:33,s:'muslim',ar:'سُبْحَانَ اللَّهِ',en:'Glory be to Allah.'},
+p_ham:{n:33,s:'muslim',ar:'الْحَمْدُ لِلَّهِ',en:'All praise is for Allah.'},
+p_akb:{n:33,s:'muslim',ar:'اللَّهُ أَكْبَرُ',en:'Allah is the Greatest.'},
+p_tah:{n:1,s:'muslim',ar:'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+ en:'Completing the hundred: there is no deity except Allah alone, without partner. His is the sovereignty and His is the praise, and He is capable of all things.'},
+p_aini:{n:1,s:'adn',ar:'اللَّهُمَّ أَعِنِّي عَلَىٰ ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ',en:'O Allah, help me to remember You, to thank You and to worship You well.'},
+s_bismik:{n:1,s:'bukhari',ar:'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',en:'In Your name, O Allah, I die and I live.'},
+s_baqarah:{n:1,s:'baqarah',ar:'آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ'+AYA(285)+'لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ'+AYA(286),
+ en:'The last two verses of Al-Baqarah: The Messenger has believed in what was revealed to him from his Lord, and so have the believers… Our Lord, do not take us to task if we forget or err… You are our Protector, so grant us victory.'},
+s_qini:{n:3,s:'abudawud',ar:'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',en:'O Allah, protect me from Your punishment on the Day You resurrect Your servants.'},
+s_sub:{n:33,s:'bm',ar:'سُبْحَانَ اللَّهِ',en:'Glory be to Allah.'},
+s_ham:{n:33,s:'bm',ar:'الْحَمْدُ لِلَّهِ',en:'All praise is for Allah.'},
+s_akb:{n:34,s:'bm',ar:'اللَّهُ أَكْبَرُ',en:'Allah is the Greatest.'}
+};
+const CATS={
+ m:['kursi','ikhlas','falaq','nas','asbahna','bika_m','sayyid','afini','hayy','bismillah','radeetu','hasbi','tahlil10','subhan100'],
+ e:['kursi','ikhlas','falaq','nas','amsayna','bika_e','sayyid','afini','hayy','bismillah','radeetu','hasbi','kalimat','subhan100'],
+ p:['p_istighfar','p_salam','p_tahlil','p_sub','p_ham','p_akb','p_tah','kursi','p_aini'],
+ s:['s_bismik','kursi','s_baqarah','ikhlas','falaq','nas','s_qini','s_sub','s_ham','s_akb']
+};
+const TAS=['سُبْحَانَ اللَّهِ','الْحَمْدُ لِلَّهِ','اللَّهُ أَكْبَرُ','لَا إِلَٰهَ إِلَّا اللَّهُ','أَسْتَغْفِرُ اللَّهَ','سُبْحَانَ اللَّهِ وَبِحَمْدِهِ','لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ','اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ'];
+
+/* extra strings (install) */
+const L_EXTRA={
+ ar:{install:'تثبيت التطبيق',installDesc:'ثبّت سَمْت على جهازك ليعمل تطبيقاً مستقلاً ودون اتصال بالإنترنت.'},
+ en:{install:'Install app',installDesc:'Install Samt on your device to use it as a standalone app, even offline.'},
+ fr:{install:'Installer l’application',installDesc:'Installez Samt sur votre appareil pour l’utiliser comme une application autonome, même hors ligne.'},
+ tr:{install:'Uygulamayı yükle',installDesc:'Samt’ı cihazınıza yükleyerek bağımsız bir uygulama olarak, çevrimdışı da kullanın.'},
+ ur:{install:'ایپ انسٹال کریں',installDesc:'سَمْت کو اپنے آلے پر انسٹال کریں تاکہ یہ الگ ایپ کی طرح آف لائن بھی چلے۔'},
+ id:{install:'Pasang aplikasi',installDesc:'Pasang Samt di perangkat Anda agar bisa dipakai sebagai aplikasi mandiri, juga tanpa internet.'}
+};
+for(const k in L_EXTRA)Object.assign(L[k],L_EXTRA[k]);
+
+/* =================== astronomical engine (offline) =================== */
+const DR=Math.PI/180;
+const dsin=d=>Math.sin(d*DR),dcos=d=>Math.cos(d*DR),dtan=d=>Math.tan(d*DR);
+const dasin=x=>Math.asin(x)/DR,dacos=x=>Math.acos(x)/DR,datan2=(y,x)=>Math.atan2(y,x)/DR,dacot=x=>Math.atan(1/x)/DR;
+const fix=(a,b)=>{a=a-b*Math.floor(a/b);return a<0?a+b:a};
+function julian(y,m,d){if(m<=2){y-=1;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+function sunPos(jd){const D=jd-2451545,g=fix(357.529+0.98560028*D,360),q=fix(280.459+0.98564736*D,360),Lo=fix(q+1.915*dsin(g)+0.020*dsin(2*g),360),e=23.439-0.00000036*D;const RA=datan2(dcos(e)*dsin(Lo),dcos(Lo))/15;return{decl:dasin(dsin(e)*dsin(Lo)),eqt:q/15-fix(RA,24)}}
+function prayerTimes(y,m,d,lat,lng,tz,cfg){
+  const jd=julian(y,m,d)-lng/(15*24);
+  const mid=t=>fix(12-sunPos(jd+t).eqt,24);
+  const angT=(a,t,ccw)=>{const dec=sunPos(jd+t).decl,noon=mid(t);const v=(-dsin(a)-dsin(dec)*dsin(lat))/(dcos(dec)*dcos(lat));const tt=dacos(v)/15;return noon+(ccw?-tt:tt)};
+  const asrT=(f,t)=>{const dec=sunPos(jd+t).decl;return angT(-dacot(f+dtan(Math.abs(lat-dec))),t)};
+  const D0={fajr:5,sunrise:6,dhuhr:12,asr:13,sunset:18,isha:18};
+  let T={...D0};
+  for(let it=0;it<2;it++){
+    const p={};for(const k in T)p[k]=(isNaN(T[k])?D0[k]:T[k])/24;
+    T={fajr:angT(cfg.f,p.fajr,true),sunrise:angT(0.833,p.sunrise,true),dhuhr:mid(p.dhuhr),asr:asrT(cfg.asr,p.asr),sunset:angT(0.833,p.sunset,false),isha:cfg.im?18:angT(cfg.i,p.isha,false)};
+  }
+  for(const k in T)T[k]+=tz-lng/15;
+  const night=fix(T.sunrise-T.sunset,24);
+  const portion=a=>cfg.hl==='mid'?night/2:cfg.hl==='seventh'?night/7:night*a/60;
+  if(cfg.hl!=='none'){
+    const pf=portion(cfg.f);if(isNaN(T.fajr)||fix(T.sunrise-T.fajr,24)>pf)T.fajr=T.sunrise-pf;
+    if(!cfg.im){const pi=portion(cfg.i);if(isNaN(T.isha)||fix(T.isha-T.sunset,24)>pi)T.isha=T.sunset+pi}
+  }
+  T.maghrib=T.sunset;
+  if(cfg.im)T.isha=T.maghrib+cfg.im/60;
+  const nightF=fix(T.fajr-T.sunset,24);
+  T.midnight=T.sunset+nightF/2;T.lastThird=T.sunset+nightF*2/3;
+  const adj=cfg.adj||{};for(const k of['fajr','sunrise','dhuhr','asr','maghrib','isha'])T[k]+=(adj[k]||0)/60;
+  return T;
+}
+function kmBetween(a1,o1,a2,o2){const h=Math.sin((a2-a1)*DR/2)**2+Math.cos(a1*DR)*Math.cos(a2*DR)*Math.sin((o2-o1)*DR/2)**2;return 2*6371*Math.asin(Math.sqrt(h))}
+function qiblaBearing(lat,lng){const dl=39.8262-lng;return fix(datan2(dsin(dl),dcos(lat)*dtan(21.4225)-dsin(lat)*dcos(dl)),360)}
+const _tzf={};
+function tzParts(tz,ms){const o={};const f=_tzf[tz]||(_tzf[tz]=new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',second:'numeric'}));f.formatToParts(new Date(ms)).forEach(p=>{if(p.type!=='literal')o[p.type]=+p.value});if(o.hour===24)o.hour=0;return o}
+function tzOffset(tz,y,m,d){const ms=Date.UTC(y,m-1,d,12);const p=tzParts(tz,ms);return(Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second)-ms)/3600000}
+const angDiff=(a,b)=>((a-b+540)%360)-180;
+
+/* =================== state =================== */
+const KEY='samt.v1';
+const DEF={lang:'ar',digits:'latn',theme:'auto',h12:null,loc:{mode:'city',city:'dubai'},method:'auto',asr:1,hl:'angle',
+  adj:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},hijriAdj:0,
+  notif:{on:false,pre:10,sound:true,per:{fajr:true,dhuhr:true,asr:true,maghrib:true,isha:true}},
+  log:{},dh:{date:'',p:{}},tas:{p:0,n:0,target:33,total:0},aSize:25,aTr:null};
+function load(){
+  let s=null;try{s=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  const o=JSON.parse(JSON.stringify(DEF));
+  if(s&&typeof s==='object'){for(const k in s){if(o[k]&&typeof o[k]==='object'&&!Array.isArray(o[k])&&s[k]&&typeof s[k]==='object'&&k!=='loc')o[k]=Object.assign(o[k],s[k]);else o[k]=s[k]}
+    o.notif.per=Object.assign({},DEF.notif.per,(s.notif&&s.notif.per)||{})}
+  if(!L[o.lang])o.lang='ar';
+  return o;
+}
+let S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* =================== helpers =================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function t(k,v){let s=L[S.lang]&&L[S.lang][k];if(s==null)s=L.en[k];if(s==null)return k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s}
+const isRTL=()=>RTL.has(S.lang);
+const nu=()=>(S.lang==='ar'||S.lang==='ur')?(S.digits==='native'?(S.lang==='ar'?'arab':'arabext'):'latn'):null;
+const locale=()=>S.lang+(nu()?'-u-nu-'+nu():'');
+const _f=new Map();
+function F(opts,loc){loc=loc||locale();const k=loc+'|'+JSON.stringify(opts);let f=_f.get(k);if(!f){try{f=new Intl.DateTimeFormat(loc,opts)}catch(e){f=new Intl.DateTimeFormat('en',opts)}_f.set(k,f)}return f}
+function nf(n,o){try{return new Intl.NumberFormat(locale(),o||{}).format(n)}catch(e){return String(n)}}
+function use12(){if(S.h12!==null&&S.h12!==undefined)return S.h12;try{const hc=new Intl.DateTimeFormat(locale(),{hour:'numeric'}).resolvedOptions().hourCycle;return hc==='h12'||hc==='h11'}catch(e){return true}}
+const AR_LETTER=/[\u0620-\u064A\u066E-\u06D3\u06FA-\u06FF]/;
+function fmtT(ms){const s=F({hour:'numeric',minute:'2-digit',hour12:use12(),timeZone:place().tz}).format(ms);return isRTL()&&!AR_LETTER.test(s)?'\u2066'+s+'\u2069':s}
+function fmtMin(n){const N=nf(n);switch(S.lang){case'ar':return n===1?'دقيقة واحدة':n===2?'دقيقتان':(n>=3&&n<=10)?N+' دقائق':N+' دقيقة';case'ur':return N+' منٹ';case'tr':return N+' dk';case'id':return N+' menit';default:return N+' min'}}
+const fmtSigned=v=>(v>0?'+':'')+nf(v);
+const ymdKey=a=>a[0]+'-'+String(a[1]).padStart(2,'0')+'-'+String(a[2]).padStart(2,'0');
+const noonUTC=a=>Date.UTC(a[0],a[1]-1,a[2],12);
+const dow=a=>new Date(noonUTC(a)).getUTCDay();
+const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mqDark=matchMedia('(prefers-color-scheme: dark)');
+const isDark=()=>S.theme==='dark'||(S.theme==='auto'&&mqDark.matches);
+const cityName=c=>(S.lang==='ar'||S.lang==='ur')?c[2]:c[1];
+const _dn={};
+function regionName(cc,lang){lang=lang||S.lang;if(!cc)return'';try{_dn[lang]=_dn[lang]||new Intl.DisplayNames([lang],{type:'region'});return _dn[lang].of(cc)||cc}catch(e){return cc}}
+function coordText(lat,lng){const c=t('cardinals').split(','),o={minimumFractionDigits:2,maximumFractionDigits:2},sep=isRTL()?'، ':', ';return `\u2066${nf(Math.abs(lat),o)}°\u2069 ${lat>=0?c[0]:c[2]}${sep}\u2066${nf(Math.abs(lng),o)}°\u2069 ${lng>=0?c[1]:c[3]}`}
+function validTZ(tz){try{new Intl.DateTimeFormat('en',{timeZone:tz});return tz}catch(e){return Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}}
+
+/* =================== place & day =================== */
+let _place=null,D=null;
+function place(){
+  if(_place)return _place;
+  if(S.loc.mode==='gps'&&Number.isFinite(S.loc.lat)){
+    const near=S.loc.near&&CITY[S.loc.near];
+    _place={gps:true,name:t('myLocation'),sub:near?t('near',{c:cityName(near)}):'',lat:S.loc.lat,lng:S.loc.lng,tz:validTZ(S.loc.tz),method:S.loc.method||'mwl',cc:S.loc.cc||null};
+  }else{
+    const c=CITY[S.loc.city]||CITY.dubai;
+    _place={gps:false,id:c[0],name:cityName(c),sub:regionName(c[3]),lat:c[4],lng:c[5],tz:c[6],method:c[7],cc:c[3]};
+  }
+  return _place;
+}
+function invalidate(){_place=null;D=null;_f.clear()}
+const methodKey=()=>S.method==='auto'?place().method:(METHODS[S.method]?S.method:'mwl');
+function hijriFmt(opts,ymd){const n=nu();const loc=`${S.lang}-u-ca-islamic-umalqura${n?'-nu-'+n:''}`;return F(Object.assign({},opts,{timeZone:'UTC'}),loc).format(noonUTC(ymd)+S.hijriAdj*864e5)}
+function hijriMonthNum(ymd){try{const p=F({month:'numeric',timeZone:'UTC'},'en-u-ca-islamic-umalqura').formatToParts(noonUTC(ymd)+S.hijriAdj*864e5).find(x=>x.type==='month');return p?parseInt(p.value,10):0}catch(e){return 0}}
+function cfgFor(ymd){const mk=methodKey(),M=METHODS[mk];let im=M.im;if(mk==='makkah'&&hijriMonthNum(ymd)===9)im=120;return{f:M.f,i:M.i,im,asr:S.asr,hl:S.hl,adj:S.adj}}
+function dayTimes(ymd){const p=place();const[y,m,d]=ymd;const off=tzOffset(p.tz,y,m,d);const T=prayerTimes(y,m,d,p.lat,p.lng,off,cfgFor(ymd));const base=Date.UTC(y,m-1,d),o={};for(const k in T)o[k]=Math.round((base+(T[k]-off)*3600000)/60000)*60000;return o}
+function shiftYMD(a,n){const dt=new Date(Date.UTC(a[0],a[1]-1,a[2]+n));return[dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate()]}
+function todayYMD(shift){const p=tzParts(place().tz,Date.now());return shiftYMD([p.year,p.month,p.day],shift||0)}
+function ensureDay(){const ymd=todayYMD(0),k=ymdKey(ymd);if(!D||D.key!==k)D={ymd,key:k,today:dayTimes(ymd),yest:dayTimes(todayYMD(-1)),tom:dayTimes(todayYMD(1))};return D}
+const PR=['fajr','sunrise','dhuhr','asr','maghrib','isha'],FIVE=['fajr','dhuhr','asr','maghrib','isha'];
+function nextPrayer(now){const d=ensureDay();for(const k of FIVE)if(d.today[k]>now)return{k,ts:d.today[k],ymd:d.ymd,tomorrow:false};return{k:'fajr',ts:d.tom.fajr,ymd:todayYMD(1),tomorrow:true}}
+function pName(k,ymd){return k==='dhuhr'&&ymd&&dow(ymd)===5?t('jumuah'):t(k)}
+function cdText(ms){let s=Math.max(0,Math.floor(ms/1000));const h=Math.floor(s/3600),m=Math.floor(s%3600/60);s%=60;return[h,m,s].map(v=>nf(v,{minimumIntegerDigits:2,useGrouping:false})).join(':')}
+
+/* =================== icons =================== */
+const ic=(p,sw)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw||1.7}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const IC={
+ nav_today:ic('<path d="M3 19h18"/><path d="M7 19a5 5 0 0 1 10 0"/><path d="M12 5v3M5.6 9.6l1.8 1.8M18.4 9.6l-1.8 1.8"/>'),
+ nav_calendar:ic('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h2M14 14h2M8 17.2h2"/>'),
+ nav_qibla:ic('<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1z"/>'),
+ nav_adhkar:ic('<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19"/><path d="M9 8h6M9 11.5h4"/>'),
+ nav_tasbeeh:ic('<circle cx="12" cy="4.3" r="1.6"/><circle cx="7.2" cy="6.2" r="1.6"/><circle cx="16.8" cy="6.2" r="1.6"/><circle cx="5.2" cy="10.8" r="1.6"/><circle cx="18.8" cy="10.8" r="1.6"/><circle cx="7.2" cy="15.4" r="1.6"/><circle cx="16.8" cy="15.4" r="1.6"/><path d="M12 15.5v6M10 21.5h4"/>'),
+ nav_settings:ic('<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'),
+ pin:ic('<path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/>'),
+ chevDown:ic('<path d="M6 9l6 6 6-6"/>'),
+ chevPrev:ic('<path d="M15 6l-6 6 6 6"/>'),chevNext:ic('<path d="M9 6l6 6-6 6"/>'),
+ check:ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>',2),
+ chk:ic('<circle cx="12" cy="12" r="8.5"/><path d="M8.2 12.3l2.7 2.7 5-5.2"/>',1.8),
+ bell:ic('<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'),
+ bellOff:ic('<path d="M8.6 5.9A6 6 0 0 1 18 11v4M6 11v5.5L4.5 18H17"/><path d="M10 20.5a2 2 0 0 0 4 0M4 4l16 16"/>'),
+ book:ic('<path d="M12 6.5C10.5 5 8 4.5 4 4.5v14c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-14c-4 0-6.5.5-8 2z"/><path d="M12 6.5v14"/>'),
+ reset:ic('<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/>'),
+ gps:ic('<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22"/>'),
+ search:ic('<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>'),
+ x:ic('<path d="M6 6l12 12M18 6L6 18"/>'),
+ mihrab:ic('<path d="M5 21V11.5a7 7 0 0 1 14 0V21"/><path d="M9.5 21v-5.5a2.5 2.5 0 0 1 5 0V21"/><path d="M3 21h18"/>'),
+ okFill:'<svg class="ok" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="var(--surface)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+const ICP={
+ fajr:ic('<path d="M3 18h18"/><path d="M6 18a6 6 0 0 1 12 0" stroke-dasharray="2 2.6"/><path d="M12 3.8l.9 2 2.1.9-2.1.9-.9 2-.9-2-2.1-.9 2.1-.9z"/>'),
+ sunrise:ic('<path d="M3 18h18"/><path d="M7 18a5 5 0 0 1 10 0"/><path d="M12 3v6M9.5 5.5L12 3l2.5 2.5"/>'),
+ dhuhr:ic('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'),
+ asr:ic('<circle cx="15" cy="9" r="3.4"/><path d="M15 3v1.4M20.6 9h-1.4M19 5l-1 1M11 5l1 1"/><path d="M3 19.5h18"/><path d="M6 19.5v-7"/>'),
+ maghrib:ic('<path d="M3 18h18"/><path d="M7 18a5 5 0 0 1 10 0"/><path d="M12 3v6M9.5 6.5L12 9l2.5-2.5"/>'),
+ isha:ic('<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.4 6.4 0 0 0 10 10z"/><path d="M17 3.5l.6 1.3 1.4.6-1.4.6-.6 1.3-.6-1.3-1.4-.6 1.4-.6z"/>')
+};
+const LOGO=(id)=>`<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15A485"/><stop offset="1" stop-color="#095A4A"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#${id})"/><path d="M10.5 33a13.5 13.5 0 0 1 27 0" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.8" stroke-linecap="round"/><path d="M10.5 33a13.5 13.5 0 0 1 19.84-11.92" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M7.5 33h33" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/><circle cx="30.34" cy="21.08" r="4.4" fill="#F3CB6E" stroke="#0C6E59" stroke-width="1.6"/></svg>`;
+
+/* =================== sky =================== */
+const SKY={
+ night:{g:['#0A1230','#142150','#1E2D63'],fg:'#F4F7FC',stars:1},
+ dawn:{g:['#1A2458','#4C4A8C','#D08C8A'],fg:'#FAF6F8',stars:.4},
+ morning:{g:['#86BCEB','#BCDDF5','#ECF5FC'],fg:'#0D1B2E',stars:0,light:1},
+ midday:{g:['#4A97DE','#8CC2EE','#D5EBFA'],fg:'#0D1B2E',stars:0,light:1},
+ afternoon:{g:['#6DA3D6','#B5CFDC','#EFD6A4'],fg:'#0D1B2E',stars:0,light:1},
+ sunset:{g:['#27326C','#A0566E','#EC9D5C'],fg:'#FFF8F2',stars:.15},
+ dusk:{g:['#0F1941','#292C62','#573C6E'],fg:'#F4F2FA',stars:.65}
+};
+const SKY_DARK={
+ morning:{g:['#163B63','#22578A','#3C76A8'],fg:'#F4F8FC',light:0},
+ midday:{g:['#10416F','#1D5B93','#3979B3'],fg:'#F4F8FC',light:0},
+ afternoon:{g:['#1B3A60','#39567A','#8A6C45'],fg:'#FBF6EE',light:0}
+};
+function period(now){const T=ensureDay().today;if(now<T.fajr)return'night';if(now<T.sunrise)return'dawn';if(now<T.dhuhr-90*6e4)return'morning';if(now<T.asr)return'midday';if(now<T.maghrib-45*6e4)return'afternoon';if(now<T.maghrib+25*6e4)return'sunset';if(now<T.isha)return'dusk';return'night'}
+function skyFor(p){const b=SKY[p];return isDark()&&SKY_DARK[p]?Object.assign({},b,SKY_DARK[p]):b}
+const STARS=(()=>{let s=11;const r=()=>(s=(s*16807)%2147483647)/2147483647;let o='';for(let i=0;i<52;i++){o+=`<circle cx="${(r()*100).toFixed(2)}" cy="${(r()*46).toFixed(2)}" r="${(.05+r()*.07).toFixed(3)}" fill="#fff" opacity="${(.25+r()*.45).toFixed(2)}"/>`}return o})();
+
+/* =================== routing & chrome =================== */
+const PAGES=['today','calendar','qibla','adhkar','tasbeeh','settings'];
+const TABS=['today','qibla','adhkar','tasbeeh','settings'];
+let page='today';
+function go(p,opt){if(!PAGES.includes(p))p='today';page=p;if(opt&&opt.cat)aCat=opt.cat;if(p==='calendar')calOff=0;renderChrome();renderPage();window.scrollTo({top:0,behavior:'auto'})}
+function applyTheme(){const r=document.documentElement;if(S.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',S.theme);const m=$('meta[name="theme-color"]');if(m)m.setAttribute('content',isDark()?'#0A101B':'#F3F5F7')}
+function renderChrome(){
+  const r=document.documentElement;r.lang=S.lang;r.dir=isRTL()?'rtl':'ltr';applyTheme();
+  const p=place();
+  $('#side').innerHTML=`<div class="brand">${LOGO('lg1')}<div><b>${esc(t('appName'))}</b><small>${esc(t('tagline'))}</small></div></div>
+   <nav class="side-nav" aria-label="${esc(t('appName'))}">${PAGES.map(k=>`<button data-nav="${k}" ${k===page?'aria-current="page"':''}>${IC['nav_'+k]}<span>${esc(t('nav_'+k))}</span></button>`).join('')}</nav>
+   <div class="side-next" id="sideNext"></div>`;
+  $('#tabbar').innerHTML=TABS.map(k=>`<button data-nav="${k}" ${k===page?'aria-current="page"':''}>${IC['nav_'+k]}<span>${esc(t('nav_'+k))}</span></button>`).join('');
+  $('#topbar').innerHTML=`<div class="tb-brand mobile-only">${LOGO('lg2')}<span>${esc(t('appName'))}</span></div><h1 class="tb-title desktop-only">${esc(t('nav_'+page))}</h1>
+   <button class="loc-chip" data-open="loc" aria-label="${esc(t('chooseLocation'))}">${IC.pin}<span>${esc(p.name)}</span><span class="chev">${IC.chevDown}</span></button>`;
+  document.title=`${t('appName')} — ${t('nav_'+page)}`;
+  $('#sheetX').innerHTML=IC.x;$('#sheetX').setAttribute('aria-label',t('close'));$('#searchIc').innerHTML=IC.search;
+  $('#citySearch').placeholder=t('searchCity');$('#sheetGps').innerHTML=IC.gps+esc(t('useMyLocation'));$('#sheetTitle').textContent=t('chooseLocation');
+  renderSideNext();
+}
+function renderSideNext(){const el=$('#sideNext');if(!el)return;const now=Date.now(),nx=nextPrayer(now);
+  el.innerHTML=`<span class="l">${esc(t('nextPrayer'))}</span><b class="n">${esc(pName(nx.k,nx.ymd))}</b><span class="r"><span>${nx.tomorrow?esc(t('tomorrow'))+' ':''}${esc(fmtT(nx.ts))}</span><span class="cd2" id="sideCd">${cdText(nx.ts-now)}</span></span>`}
+const RENDER={today:pageToday,calendar:pageCalendar,qibla:pageQibla,adhkar:pageAdhkar,tasbeeh:pageTasbeeh,settings:pageSettings};
+const AFTER={qibla:()=>buildCompass(),calendar:()=>{const tr=document.querySelector('tr.is-today'),w=$('.tbl-wrap');if(tr&&w)w.scrollTop=Math.max(0,tr.offsetTop-90)}};
+function renderPage(){const v=$('#view');v.innerHTML=`<div class="page">${RENDER[page]()}</div>`;if(AFTER[page])AFTER[page]();lastNextKey=nextKey();lastPeriod=page==='today'?period(Date.now()):''}
+function renderAll(){renderChrome();renderPage()}
+
+/* =================== today =================== */
+function pageToday(){const now=Date.now(),nx=nextPrayer(now);
+  return heroHTML(now,nx)+`<div class="prayers card" id="prayers">${prayersHTML(now,nx)}</div><div class="widgets" id="widgets">${widgetsHTML(now)}</div>`}
+function heroHTML(now,nx){
+  const d=ensureDay(),per=period(now),pal=skyFor(per);
+  const greg=F({weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(noonUTC(d.ymd));
+  let hij='';try{hij=hijriFmt({day:'numeric',month:'long',year:'numeric'},d.ymd)}catch(e){}
+  return `<section class="hero ${pal.light?'is-light':''}" id="hero" style="--g0:${pal.g[0]};--g1:${pal.g[1]};--g2:${pal.g[2]};color:${pal.fg}">
+   <svg class="hero-stars" id="stars" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:${pal.stars}">${STARS}</svg>
+   <div class="hero-grid">
+    <div class="hero-dates"><span>${esc(greg)}</span><span>${esc(hij)}</span></div>
+    <div class="hero-main">
+     <div><div class="hero-lbl">${esc(t('nextPrayer'))}</div><div class="hero-name">${esc(pName(nx.k,nx.ymd))}</div><div class="hero-at">${nx.tomorrow?esc(t('tomorrow'))+' ':''}${esc(fmtT(nx.ts))}</div></div>
+     <div class="hero-cd"><div class="hero-lbl">${esc(t('timeLeft'))}</div><span class="cd" id="cd">${cdText(nx.ts-now)}</span></div>
+    </div>
+    <div class="hero-arc" id="heroArc">${arcSVG(now)}</div>
+   </div>
+   ${dow(d.ymd)===5?`<div class="hero-note">${IC.book}<span>${esc(t('kahf'))}</span></div>`:''}
+  </section>`;
+}
+function arcSVG(now){
+  const d=ensureDay(),T=d.today,rtl=isRTL();let a,b,marks,body,sL,eL;
+  if(now>=T.sunrise&&now<T.maghrib){a=T.sunrise;b=T.maghrib;body='sun';marks=[['dhuhr',T.dhuhr],['asr',T.asr]];sL=['sunrise',a];eL=['maghrib',b]}
+  else if(now>=T.maghrib){a=T.maghrib;b=d.tom.sunrise;body='moon';marks=[['isha',T.isha],['midnight',T.midnight],['lastThird',T.lastThird],['fajr',d.tom.fajr]];sL=['maghrib',a];eL=['sunrise',b]}
+  else{a=d.yest.maghrib;b=T.sunrise;body='moon';marks=[['isha',d.yest.isha],['midnight',d.yest.midnight],['lastThird',d.yest.lastThird],['fajr',T.fajr]];sL=['maghrib',a];eL=['sunrise',b]}
+  const f=Math.min(1,Math.max(0,(now-a)/(b-a)));
+  const X=v=>rtl?400-v:v;
+  const pt=q=>{const th=Math.PI*q;return[X(200-170*Math.cos(th)),138-106*Math.sin(th)]};
+  const path=(q0,q1,n)=>{let s='';for(let i=0;i<=n;i++){const[x,y]=pt(q0+(q1-q0)*i/n);s+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)}return s};
+  let m='';
+  for(const[k,ts]of marks){const q=(ts-a)/(b-a);if(q<=.03||q>=.97)continue;const[x,y]=pt(q);const lab=k==='dhuhr'?pName('dhuhr',d.ymd):t(k);
+    m+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.4" fill="currentColor" opacity=".9"/>`+(Math.abs(q-f)<.075?'':`<text x="${x.toFixed(1)}" y="${(y-12).toFixed(1)}" text-anchor="middle" class="arc-lbl">${esc(lab)}</text>`)}
+  const[bx,by]=pt(f);
+  const bd=body==='sun'
+    ?`<circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="32" fill="url(#sg)"/><circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="10" fill="#FFD66B" stroke="#FFF3CF" stroke-width="2"/>`
+    :`<circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="26" fill="url(#mg)"/><g transform="translate(${bx.toFixed(1)} ${by.toFixed(1)})"><path d="M3.2-10.2A10.6 10.6 0 1 0 10.4 5.2 8.4 8.4 0 0 1 3.2-10.2z" fill="#F6F2E3"/></g>`;
+  return `<svg viewBox="0 0 400 172" role="img" aria-label="${esc(t(sL[0])+' '+fmtT(sL[1])+' – '+t(eL[0])+' '+fmtT(eL[1]))}"><defs>
+   <radialGradient id="sg"><stop offset="0" stop-color="#FFE7A3" stop-opacity=".95"/><stop offset=".45" stop-color="#FFE7A3" stop-opacity=".35"/><stop offset="1" stop-color="#FFE7A3" stop-opacity="0"/></radialGradient>
+   <radialGradient id="mg"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+   <line x1="6" x2="394" y1="138" y2="138" stroke="currentColor" stroke-opacity=".32" stroke-width="1.2"/>
+   <path d="${path(0,1,72)}" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.8" stroke-dasharray=".1 6.5" stroke-linecap="round"/>
+   ${f>0?`<path d="${path(0,f,Math.max(2,Math.round(72*f)))}" fill="none" stroke="currentColor" stroke-opacity=".9" stroke-width="2.4" stroke-linecap="round"/>`:''}
+   ${m}${bd}
+   <text x="${rtl?394:6}" y="162" text-anchor="${rtl?'end':'start'}" class="arc-end">${esc(t(sL[0]))} ${esc(fmtT(sL[1]))}</text>
+   <text x="${rtl?6:394}" y="162" text-anchor="${rtl?'start':'end'}" class="arc-end">${esc(t(eL[0]))} ${esc(fmtT(eL[1]))}</text></svg>`;
+}
+function prayersHTML(now,nx){
+  const d=ensureDay(),log=S.log[d.key]||{};
+  return PR.map(k=>{
+    const ts=d.today[k],minor=k==='sunrise',isNext=!nx.tomorrow&&nx.k===k,past=ts<=now,done=!!log[k],on=!!S.notif.per[k],nm=pName(k,d.ymd);
+    const cls=['pc',minor&&'is-minor',isNext&&'is-next',past&&'is-past',done&&'is-done'].filter(Boolean).join(' ');
+    const act=minor?'':`<button class="ib chk" data-chk="${k}" aria-pressed="${done}" ${ts>now?'disabled':''} title="${esc(t('prayed'))}" aria-label="${esc(t('prayed')+': '+nm)}">${IC.chk}</button><button class="ib bell" data-bell="${k}" aria-pressed="${on}" title="${esc(t('alert'))}" aria-label="${esc(t('alert')+': '+nm)}">${on?IC.bell:IC.bellOff}</button>`;
+    return `<div class="${cls}"><span class="pc-ic">${ICP[k]}</span><span class="pc-nm">${esc(nm)}${isNext?`<span class="pc-tag">${esc(t('nextTag'))}</span>`:''}</span><span class="pc-tm">${esc(fmtT(ts))}</span><span class="pc-act">${act}</span></div>`;
+  }).join('');
+}
+function ringSVG(frac,label,full){const r=17,c=2*Math.PI*r;return `<span class="ring ${full?'is-full':''}"><svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="4"/>${frac>0?`<circle cx="21" cy="21" r="${r}" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c*(1-frac)).toFixed(2)}"/>`:''}</svg><b>${label}</b></span>`}
+function streak(){const full=y=>{const lg=S.log[ymdKey(y)]||{};return FIVE.every(k=>lg[k])};const t0=todayYMD(0);let i=full(t0)?0:-1,n=0;while(n<3660&&full(shiftYMD(t0,i))){n++;i--}return n}
+function suggestCat(now){const T=ensureDay().today;if(now>=T.fajr&&now<T.dhuhr)return'm';if(now>=T.asr&&now<T.isha)return'e';if(now>=T.isha||now<T.fajr)return's';return'p'}
+function dhProg(){const k=ensureDay().key;if(!S.dh||S.dh.date!==k)S.dh={date:k,p:{}};return S.dh.p}
+function catStats(c){const pg=dhProg();let tot=0,got=0,done=0;for(const id of CATS[c]){const a=ADH[id],v=Math.min(pg[c+':'+id]||0,a.n);tot+=a.n;got+=v;if(v>=a.n)done++}return{tot,got,done,items:CATS[c].length}}
+function widgetsHTML(now){
+  const d=ensureDay(),p=place();
+  let cells='';for(let i=-6;i<=0;i++){const y=shiftYMD(d.ymd,i),lg=S.log[ymdKey(y)]||{},n=FIVE.filter(k=>lg[k]).length;cells+=`<div class="wd ${i===0?'is-today':''}"><span>${esc(F({weekday:'short',timeZone:'UTC'}).format(noonUTC(y)))}</span>${ringSVG(n/5,nf(y[2]),n===5)}</div>`}
+  const week=`<div class="card w-week"><div class="card-h"><h3>${esc(t('week'))}</h3><div class="streak"><b>${nf(streak())}</b><span>${esc(t('streak'))}</span></div></div><div class="week">${cells}</div></div>`;
+  const c=suggestCat(now),s=catStats(c);
+  const adh=`<div class="card w-adhkar"><div class="card-h"><h3>${esc(t('cat'+c.toUpperCase()))}</h3><b class="wa-count">${nf(s.done)}/${nf(s.items)}</b></div><div class="bar"><i style="width:${s.tot?(s.got/s.tot*100).toFixed(1):0}%"></i></div><button class="btn btn-primary btn-block" data-go="adhkar" data-cat="${c}">${esc(t('continue'))}</button></div>`;
+  const src=now<d.today.fajr?d.yest:d.today;
+  const night=`<div class="card w-night"><div class="card-h"><h3>${esc(t('night'))}</h3><span class="w-ic">${ICP.isha}</span></div><div class="kv"><span>${esc(t('midnight'))}</span><b>${esc(fmtT(src.midnight))}</b></div><div class="kv"><span>${esc(t('lastThird'))}</span><b>${esc(fmtT(src.lastThird))}</b></div></div>`;
+  const q=qiblaBearing(p.lat,p.lng),N=t('cardinals').split(',')[0];
+  const qib=`<div class="card w-qibla"><div class="card-h"><h3>${esc(t('qiblaDir'))}</h3></div><div class="wq"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="var(--surface-2)" stroke="var(--line-2)"/><text x="32" y="12.5" text-anchor="middle" dominant-baseline="middle" font-size="9" font-weight="700" fill="var(--accent)">${esc(N)}</text><g transform="rotate(${q.toFixed(1)} 32 32)"><path d="M32 13 L36.5 32 L32 29.5 L27.5 32Z" fill="var(--accent)"/><path d="M32 51 L36.5 32 L32 34.5 L27.5 32Z" fill="var(--line-2)"/></g><circle cx="32" cy="32" r="2.6" fill="var(--ink)"/></svg><div><b class="wq-deg">${nf(Math.round(q))}°</b><span>${esc(t('fromNorth'))}</span></div></div><button class="btn btn-block" data-go="qibla">${esc(t('openQibla'))}</button></div>`;
+  let hm='';try{hm=hijriFmt({month:'long',year:'numeric'},d.ymd)}catch(e){}
+  const cal=`<div class="card w-cal"><div class="card-h"><h3>${esc(t('timetable'))}</h3><span class="w-ic">${IC.nav_calendar}</span></div><p>${esc(F({month:'long',year:'numeric',timeZone:'UTC'}).format(noonUTC(d.ymd)))}</p><p>${esc(hm)}</p><button class="btn btn-block" data-go="calendar">${esc(t('viewTimetable'))}</button></div>`;
+  return week+adh+night+qib+cal;
+}
+function refreshToday(){const now=Date.now(),nx=nextPrayer(now);const pe=$('#prayers');if(pe)pe.innerHTML=prayersHTML(now,nx);const we=$('#widgets');if(we)we.innerHTML=widgetsHTML(now)}
+function toggleLog(k){const d=ensureDay();if(d.today[k]>Date.now())return;S.log[d.key]=S.log[d.key]||{};S.log[d.key][k]=!S.log[d.key][k];save();if(navigator.vibrate)navigator.vibrate(12);refreshToday()}
+
+/* =================== qibla =================== */
+let heading=null,compassOn=false,wasAligned=false,rafQ=0;
+function pageQibla(){
+  const p=place(),q=qiblaBearing(p.lat,p.lng),dist=kmBetween(p.lat,p.lng,21.4225,39.8262);
+  const canLive=('DeviceOrientationEvent' in window)&&matchMedia('(pointer: coarse)').matches;
+  return `<div class="qibla">
+   <div class="card q-compass"><svg id="compass" viewBox="0 0 320 320" role="img" aria-label="${esc(t('qiblaDir')+' '+Math.round(q)+'°')}"></svg><div class="q-status" id="qStatus" aria-live="polite"></div></div>
+   <div class="card q-info">
+    <div class="q-deg"><b>${nf(q,{maximumFractionDigits:1,minimumFractionDigits:1})}°</b><span>${esc(t('fromNorth'))}</span></div>
+    <div><div class="kv"><span>${esc(t('distance'))}</span><b>${nf(Math.round(dist))} ${esc(t('km'))}</b></div>
+    <div class="kv"><span>${esc(t('yourLocation'))}</span><b>${esc(p.name)}<small>${esc(coordText(p.lat,p.lng))}</small></b></div></div>
+    ${canLive?(compassOn?'':`<button class="btn btn-primary btn-block" data-act="compass">${IC.nav_qibla}${esc(t('enableCompass'))}</button>`):`<p class="note">${esc(t('compassNA'))}</p>`}
+    <p class="hint">${esc(t('calibrate'))}</p>
+   </div></div>`;
+}
+function buildCompass(){
+  const el=$('#compass');if(!el)return;const p=place(),q=qiblaBearing(p.lat,p.lng),card=t('cardinals').split(',');
+  let ticks='';for(let a=0;a<360;a+=5){const mj=a%30===0;ticks+=`<line x1="160" y1="${mj?26:26}" x2="160" y2="${mj?38:33}" stroke="${mj?'var(--ink-2)':'var(--muted)'}" stroke-width="${mj?1.8:1}" stroke-opacity="${mj?1:.6}" stroke-linecap="round" transform="rotate(${a} 160 160)"/>`}
+  let nums='';for(let a=30;a<360;a+=30){if(a%90===0)continue;nums+=`<text x="160" y="50" text-anchor="middle" dominant-baseline="middle" class="c-num" transform="rotate(${a} 160 160)">${nf(a)}</text>`}
+  let cards='';[0,90,180,270].forEach((a,i)=>{cards+=`<g transform="rotate(${a} 160 160)"><text x="160" y="51" text-anchor="middle" dominant-baseline="middle" class="c-card ${i===0?'is-n':''}" id="cc${i}">${esc(card[i])}</text></g>`});
+  el.innerHTML=`<circle id="cRing" cx="160" cy="160" r="146" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>
+   <g id="dial">${ticks}${nums}${cards}<circle cx="160" cy="160" r="96" fill="var(--surface)" stroke="var(--line)"/>
+    <g transform="rotate(${q.toFixed(2)} 160 160)"><line x1="160" y1="160" x2="160" y2="92" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round"/><path d="M160 58 l7.5 11 h-15z" fill="var(--accent)"/></g>
+    <g id="kaaba"><rect x="-13" y="-13" width="26" height="26" rx="3.5" fill="#16181D" stroke="var(--ink-2)" stroke-opacity=".4"/><rect x="-13" y="-7" width="26" height="4.2" fill="#D6AE4A"/><rect x="-3.2" y="2.5" width="6.4" height="10.5" rx="1" fill="#D6AE4A" opacity=".85"/></g></g>
+   <path d="M160 2 l8 12 h-16z" fill="var(--ink)"/><circle cx="160" cy="160" r="7" fill="var(--ink)"/><circle cx="160" cy="160" r="2.6" fill="var(--surface)"/>`;
+  updateCompass();
+}
+function updateCompass(){
+  const el=$('#compass');if(!el)return;const p=place(),q=qiblaBearing(p.lat,p.lng),rot=heading==null?0:-heading;
+  $('#dial').setAttribute('transform',`rotate(${rot.toFixed(2)} 160 160)`);
+  const kx=160+76*Math.sin(q*DR),ky=160-76*Math.cos(q*DR);
+  $('#kaaba').setAttribute('transform',`translate(${kx.toFixed(2)} ${ky.toFixed(2)}) rotate(${(-rot).toFixed(2)})`);
+  for(let i=0;i<4;i++){const c=$('#cc'+i);if(c)c.setAttribute('transform',`rotate(${(-rot-i*90).toFixed(2)} 160 51)`)}
+  const df=heading==null?null:angDiff(q,heading),ok=df!=null&&Math.abs(df)<3;
+  const ring=$('#cRing');ring.setAttribute('stroke',ok?'var(--accent)':'var(--line-2)');ring.setAttribute('stroke-width',ok?'3':'1');
+  const st=$('#qStatus');if(st){if(df==null)st.textContent=compassOn?'':'';else st.textContent=ok?t('aligned'):df>0?t('turnRight',{d:nf(Math.round(df))}):t('turnLeft',{d:nf(Math.round(-df))});st.classList.toggle('is-ok',ok)}
+  if(ok&&!wasAligned&&navigator.vibrate)navigator.vibrate([30,40,30]);wasAligned=ok;
+}
+function onOri(e){
+  let h=null;
+  if(typeof e.webkitCompassHeading==='number')h=e.webkitCompassHeading;
+  else if((e.absolute===true||e.type==='deviceorientationabsolute')&&typeof e.alpha==='number')h=360-e.alpha;
+  if(h==null)return;
+  const so=(screen.orientation&&typeof screen.orientation.angle==='number')?screen.orientation.angle:(window.orientation||0);
+  h=fix(h+so,360);heading=heading==null?h:fix(heading+angDiff(h,heading)*.22,360);
+  if(page==='qibla'&&!rafQ)rafQ=requestAnimationFrame(()=>{rafQ=0;updateCompass()});
+}
+async function enableCompass(){
+  try{
+    if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const r=await DeviceOrientationEvent.requestPermission();if(r!=='granted')throw new Error('denied')}
+    window.addEventListener('deviceorientationabsolute',onOri,true);window.addEventListener('deviceorientation',onOri,true);
+    compassOn=true;if(page==='qibla')renderPage();
+    setTimeout(()=>{if(heading==null&&page==='qibla'){const st=$('#qStatus');if(st)st.textContent=t('compassNA')}},3000);
+  }catch(err){const st=$('#qStatus');if(st)st.textContent=t('compassNA')}
+}
+
+/* =================== adhkar =================== */
+let aCat=null;
+function pageAdhkar(){
+  aCat=aCat||suggestCat(Date.now());
+  const pg=dhProg(),s=catStats(aCat),tr=S.aTr==null?S.lang!=='ar':S.aTr,srcI=(S.lang==='ar'||S.lang==='ur')?0:1;
+  const cats=[['m','morning',ICP.sunrise],['e','evening',ICP.maghrib],['p','afterPrayer',IC.mihrab],['s','sleep',ICP.isha]];
+  const cards=CATS[aCat].map(id=>{const a=ADH[id],v=Math.min(pg[aCat+':'+id]||0,a.n),done=v>=a.n,r=11,c=2*Math.PI*r;
+    const ring=done?IC.okFill:`<svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="3"/>${v?`<circle cx="13" cy="13" r="${r}" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c*(1-v/a.n)).toFixed(2)}"/>`:''}</svg>`;
+    return `<article class="dk ${done?'is-done':''}" data-dk="${id}" tabindex="0" role="button" aria-label="${esc(t('tapHint')+' '+v+'/'+a.n)}"><p class="dk-ar" lang="ar" dir="rtl">${a.ar}</p>${tr?`<p class="dk-tr" lang="en" dir="ltr">${esc(a.en)}</p>`:''}<div class="dk-foot"><span>${esc(SRC[a.s][srcI])}</span><span class="dk-ctr">${ring}<span>${nf(v)}/${nf(a.n)}</span></span></div></article>`}).join('');
+  return `<div class="a-wrap" style="--dk:${S.aSize}px">
+   <div class="a-tabs"><div class="seg" role="tablist">${cats.map(([c,k,i])=>`<button role="tab" aria-selected="${c===aCat}" data-acat="${c}">${i}<span>${esc(t(k))}</span></button>`).join('')}</div></div>
+   <div class="card a-tools"><div class="a-prog"><b class="a-count">${nf(s.done)}/${nf(s.items)}</b><div class="bar"><i style="width:${s.tot?(s.got/s.tot*100).toFixed(1):0}%"></i></div></div>
+    <div class="a-ctrl"><button class="ib" data-a="size-" title="${esc(t('textSize'))}" aria-label="${esc(t('textSize'))} −"><span class="tsz">A−</span></button><button class="ib" data-a="size+" title="${esc(t('textSize'))}" aria-label="${esc(t('textSize'))} +"><span class="tsz">A+</span></button>
+    <button class="chip" data-a="tr" aria-pressed="${tr}">${esc(t('translation'))}</button><button class="ib" data-a="reset" title="${esc(t('resetSection'))}" aria-label="${esc(t('resetSection'))}">${IC.reset}</button></div></div>
+   ${s.done===s.items?`<div class="a-done">${IC.okFill}<span>${esc(t('allDone',{c:t('cat'+aCat.toUpperCase())}))}</span></div>`:''}
+   <div class="a-list">${cards}</div></div>`;
+}
+function countDhikr(id){
+  const a=ADH[id];if(!a)return;const pg=dhProg(),k=aCat+':'+id,v=pg[k]||0;if(v>=a.n)return;
+  pg[k]=v+1;save();const fin=pg[k]>=a.n;if(navigator.vibrate)navigator.vibrate(fin?[18,40,18]:8);
+  const hadFocus=document.activeElement&&document.activeElement.dataset&&document.activeElement.dataset.dk===id;
+  renderPage();
+  const cur=document.querySelector(`[data-dk="${id}"]`);
+  if(cur){if(hadFocus)cur.focus({preventScroll:true});if(!fin){cur.classList.add('bump');setTimeout(()=>cur.classList.remove('bump'),250)}}
+  if(fin){const ids=CATS[aCat],i=ids.indexOf(id),nxt=ids.slice(i+1).find(x=>(pg[aCat+':'+x]||0)<ADH[x].n);
+    if(nxt){const el=document.querySelector(`[data-dk="${nxt}"]`);if(el){const r=el.getBoundingClientRect();if(r.top>innerHeight*.72||r.top<0)el.scrollIntoView({behavior:reduced()?'auto':'smooth',block:'center'});if(hadFocus)el.focus({preventScroll:true})}}}
+}
+function adhkarAction(a){
+  if(a==='size-')S.aSize=Math.max(18,S.aSize-2);
+  else if(a==='size+')S.aSize=Math.min(38,S.aSize+2);
+  else if(a==='tr'){const cur=S.aTr==null?S.lang!=='ar':S.aTr;S.aTr=!cur}
+  else if(a==='reset'){const pg=dhProg();Object.keys(pg).forEach(k=>{if(k.startsWith(aCat+':'))delete pg[k]})}
+  else if(a==='tas-reset'){S.tas.n=0;save();updateTas();return}
+  save();renderPage();
+}
+
+/* =================== tasbeeh =================== */
+function tasFrac(){const T=S.tas;return T.target?((T.n%T.target)||(T.n?T.target:0))/T.target:0}
+function pageTasbeeh(){
+  const T=S.tas,r=46,c=2*Math.PI*r;
+  return `<div class="tas">
+   <div class="chips scroll" role="radiogroup">${TAS.map((p,i)=>`<button class="chip chip-q" role="radio" aria-checked="${i===T.p}" data-tp="${i}" lang="ar">${p}</button>`).join('')}</div>
+   <p class="tas-phrase" lang="ar" dir="rtl">${TAS[T.p]}</p>
+   <button class="tas-btn" id="tasBtn" aria-label="${esc(t('count'))}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--surface-3)" stroke-width="2.6"/><circle id="tasArc" cx="50" cy="50" r="${r}" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c*(1-tasFrac())).toFixed(2)}"/></svg>
+    <span class="tas-in"><b id="tasN">${nf(T.n)}</b><small>${esc(t('target'))} ${T.target?nf(T.target):'∞'}</small></span></button>
+   <div class="seg" role="radiogroup" aria-label="${esc(t('target'))}">${[33,99,100,0].map(v=>`<button role="radio" aria-checked="${T.target===v}" data-tt="${v}">${v?nf(v):'∞'}</button>`).join('')}</div>
+   <div class="tas-stats"><span>${esc(t('total'))}</span><b id="tasTotal">${nf(T.total)}</b></div>
+   <button class="btn" data-a="tas-reset">${IC.reset}${esc(t('reset'))}</button>
+   <p class="hint desktop-only">${esc(t('spaceHint'))}</p></div>`;
+}
+function updateTas(){const T=S.tas,c=2*Math.PI*46;const n=$('#tasN');if(n)n.textContent=nf(T.n);const tt=$('#tasTotal');if(tt)tt.textContent=nf(T.total);const a=$('#tasArc');if(a)a.setAttribute('stroke-dashoffset',(c*(1-tasFrac())).toFixed(2))}
+function tasTap(){const T=S.tas;T.n++;T.total++;save();const hit=T.target&&T.n%T.target===0;if(navigator.vibrate)navigator.vibrate(hit?[35,60,35]:8);if(hit){ensureAudio();chime(.2)}updateTas()}
+
+/* =================== calendar =================== */
+let calOff=0;
+function pageCalendar(){
+  const d=ensureDay(),b=new Date(Date.UTC(d.ymd[0],d.ymd[1]-1+calOff,1)),y=b.getUTCFullYear(),m=b.getUTCMonth()+1,dim=new Date(Date.UTC(y,m,0)).getUTCDate();
+  const title=F({month:'long',year:'numeric',timeZone:'UTC'}).format(Date.UTC(y,m-1,15,12));
+  let h1='',h2='';try{h1=hijriFmt({month:'long',year:'numeric'},[y,m,1]);h2=hijriFmt({month:'long',year:'numeric'},[y,m,dim])}catch(e){}
+  let rows='';
+  for(let day=1;day<=dim;day++){const ymd=[y,m,day],ts=dayTimes(ymd),isT=ymdKey(ymd)===d.key;let hs='';try{hs=hijriFmt({day:'numeric',month:'short'},ymd)}catch(e){}
+    rows+=`<tr class="${isT?'is-today':''} ${dow(ymd)===5?'is-fri':''}"><td>${esc(F({weekday:'short',timeZone:'UTC'}).format(noonUTC(ymd)))}<b>${nf(day)}</b></td><td class="c-h">${esc(hs)}</td>${PR.map(k=>`<td>${esc(fmtT(ts[k]))}</td>`).join('')}</tr>`}
+  return `<div class="cal"><div class="card cal-head"><button class="ib" data-cal="-1" aria-label="${esc(t('prevMonth'))}"><span class="flip">${IC.chevPrev}</span></button><div><h2>${esc(title)}</h2><p>${esc(h1===h2?h1:h1+' – '+h2)}</p></div><button class="ib" data-cal="1" aria-label="${esc(t('nextMonth'))}"><span class="flip">${IC.chevNext}</span></button></div>
+   <div class="card tbl-wrap"><table><thead><tr><th>${esc(t('day'))}</th><th>${esc(t('hijri'))}</th>${PR.map(k=>`<th>${esc(t(k))}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+/* =================== settings =================== */
+let gpsMsg='';
+const row=(l,d,c,cls)=>`<div class="srow ${cls||''}"><div class="srow-t"><div class="srow-l">${l}</div>${d?`<div class="srow-d">${d}</div>`:''}</div>${c!=null?`<div class="srow-c">${c}</div>`:''}</div>`;
+const segC=(n,items,val)=>`<div class="seg" role="radiogroup">${items.map(([v,l])=>`<button role="radio" aria-checked="${String(v)===String(val)}" data-set="${n}" data-v="${esc(v)}">${esc(l)}</button>`).join('')}</div>`;
+const sw=(n,on,label)=>`<button class="switch" role="switch" aria-checked="${!!on}" data-toggle="${n}" aria-label="${esc(label)}"></button>`;
+const sel=(n,items,val,label)=>`<select data-sel="${n}" aria-label="${esc(label)}">${items.map(([v,l])=>`<option value="${esc(v)}" ${String(v)===String(val)?'selected':''}>${esc(l)}</option>`).join('')}</select>`;
+const stepC=(n,v,label)=>`<div class="stepper" role="group" aria-label="${esc(label)}"><button data-step="${n}" data-d="-1" aria-label="${esc(label)} −1">−</button><output>${fmtSigned(v)}</output><button data-step="${n}" data-d="1" aria-label="${esc(label)} +1">+</button></div>`;
+const grp=(title,body)=>`<section class="sgroup"><h2>${esc(title)}</h2><div class="card slist">${body}</div></section>`;
+function pageSettings(){
+  const p=place(),mk=methodKey(),M=METHODS[mk],mN=k=>METHODS[k][S.lang==='ar'||S.lang==='ur'?'ar':'en'];
+  const mDesc=M.im?t('ishaMinDesc',{f:nf(M.f),m:nf(M.im)}):t('anglesDesc',{f:nf(M.f),i:nf(M.i)});
+  let hij='';try{hij=hijriFmt({day:'numeric',month:'long',year:'numeric'},ensureDay().ymd)}catch(e){}
+  const loc=row(`<span class="loc-name">${esc(p.name)}</span>`,`${p.sub?esc(p.sub)+'<br>':''}<span class="num">${esc(coordText(p.lat,p.lng))}</span>`,`<button class="btn" data-open="loc">${esc(t('change'))}</button>`)
+    +row('','',`<button class="btn" data-act="gps">${IC.gps}${esc(t('useMyLocation'))}</button><p class="gps-msg">${esc(gpsMsg)}</p>`,'srow-bare srow-gps');
+  const calc=row(esc(t('method')),esc(mDesc),sel('method',[['auto',t('methodAuto')+' ('+mN(p.method)+')']].concat(Object.keys(METHODS).map(k=>[k,mN(k)])),S.method,t('method')))
+    +row(esc(t('asrMethod')),esc(t('asrDesc')),segC('asr',[[1,t('standard')],[2,t('hanafi')]],S.asr))
+    +row(esc(t('highLat')),esc(t('highLatDesc')),sel('hl',[['angle',t('hlAngle')],['mid',t('hlMid')],['seventh',t('hlSeventh')],['none',t('hlNone')]],S.hl,t('highLat')))
+    +row(esc(t('adjustments')),esc(t('adjustDesc')),null)+`<div class="srow" style="border-top:0;padding-top:0"><div class="adj">${PR.map(k=>`<div class="adj-i"><span>${esc(t(k))}</span>${stepC('adj:'+k,S.adj[k],t(k))}</div>`).join('')}</div></div>`
+    +row(esc(t('hijriAdj')),esc(hij),stepC('hijri',S.hijriAdj,t('hijriAdj')));
+  const N=S.notif;
+  const notif=row(esc(t('enableNotif')),esc(t('notifDesc')),sw('notif',N.on,t('enableNotif')))
+    +row(esc(t('perPrayer')),'',`<div class="chips">${FIVE.map(k=>`<button class="chip" data-per="${k}" aria-pressed="${!!N.per[k]}">${esc(t(k))}</button>`).join('')}</div>`)
+    +row(esc(t('preAlert')),'',sel('pre',[0,5,10,15,20,30].map(n=>[n,n?fmtMin(n):t('off')]),N.pre,t('preAlert')))
+    +row(esc(t('sound')),'',sw('sound',N.sound,t('sound')))
+    +row('','',`<button class="btn" data-act="test">${IC.bell}${esc(t('test'))}</button>`,'srow-bare');
+  const fmtV=S.h12===null||S.h12===undefined?'auto':S.h12?'12':'24';
+  const look=row(esc(t('language')),'',sel('lang',LANGS,S.lang,t('language')))
+    +row(esc(t('theme')),'',segC('theme',[['auto',t('auto')],['light',t('light')],['dark',t('dark')]],S.theme))
+    +row(esc(t('timeFormat')),'',segC('fmt',[['auto',t('auto')],['12',t('h12')],['24',t('h24')]],fmtV))
+    +((S.lang==='ar'||S.lang==='ur')?row(esc(t('digits')),'',segC('digits',[['latn','123'],['native',S.lang==='ar'?'١٢٣':'۱۲۳']],S.digits)):'');
+  const inst=deferredInstall?row(esc(t('install')),esc(t('installDesc')),`<button class="btn btn-primary" data-act="install">${esc(t('install'))}</button>`):'';
+  const about=inst+`<div class="about">${LOGO('lg3')}<div><b>${esc(t('appName'))}</b><p class="hint">${esc(t('version'))} ${nf(1)}.${nf(0)}</p><p class="hint">${esc(t('aboutText'))}</p></div></div>`;
+  return `<div class="settings">${grp(t('locGroup'),loc)}${grp(t('calcGroup'),calc)}${grp(t('notifGroup'),notif)}${grp(t('appearGroup'),look)}${grp(t('aboutGroup'),about)}</div>`;
+}
+function setOption(n,v){
+  switch(n){
+    case'lang':if(L[v])S.lang=v;break;
+    case'theme':S.theme=v;break;
+    case'fmt':S.h12=v==='auto'?null:v==='12';break;
+    case'digits':S.digits=v;break;
+    case'method':S.method=v;break;
+    case'asr':S.asr=+v;break;
+    case'hl':S.hl=v;break;
+    case'pre':S.notif.pre=+v;break;
+    default:return;
+  }
+  save();invalidate();renderAll();
+}
+function stepOption(n,d){
+  if(n==='hijri')S.hijriAdj=Math.max(-2,Math.min(2,S.hijriAdj+d));
+  else if(n.startsWith('adj:')){const k=n.slice(4);S.adj[k]=Math.max(-30,Math.min(30,(S.adj[k]||0)+d))}
+  else return;
+  save();D=null;renderPage();renderSideNext();
+}
+async function toggleOption(n){
+  if(n==='notif'){S.notif.on=!S.notif.on;save();if(S.notif.on){ensureAudio();try{if('Notification' in window&&Notification.permission==='default')await Notification.requestPermission()}catch(e){}}}
+  else if(n==='sound'){S.notif.sound=!S.notif.sound;save()}
+  renderPage();
+}
+
+/* =================== location sheet =================== */
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f\u064B-\u065F\u0670]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+function openLoc(){const sh=$('#sheet');sh.hidden=false;document.body.style.overflow='hidden';$('#citySearch').value='';$('#sheetMsg').textContent='';renderCityList('');setTimeout(()=>{const i=$('#citySearch');if(matchMedia('(pointer: fine)').matches)i.focus()},60);const cur=$('#cityList [aria-current="true"]');if(cur)cur.scrollIntoView({block:'center'})}
+function closeLoc(){$('#sheet').hidden=true;document.body.style.overflow=''}
+function renderCityList(q){
+  const nq=norm(q.trim()),col=new Intl.Collator(S.lang),cur=S.loc.mode==='city'?S.loc.city:null;
+  const items=CITIES.map(c=>({c,name:cityName(c),country:regionName(c[3])})).filter(o=>!nq||[o.c[1],o.c[2],o.country,regionName(o.c[3],'en'),regionName(o.c[3],'ar')].some(s=>norm(s).includes(nq)));
+  items.sort((a,b)=>col.compare(a.country,b.country)||col.compare(a.name,b.name));
+  let h='',last='';
+  for(const o of items){if(o.country!==last){h+=`<li class="cl-h">${esc(o.country)}</li>`;last=o.country}
+    h+=`<li><button data-city="${o.c[0]}" ${o.c[0]===cur?'aria-current="true"':''}><span>${esc(o.name)}</span>${o.c[0]===cur?IC.check:''}</button></li>`}
+  $('#cityList').innerHTML=h||`<li class="empty">${esc(t('noResults'))}</li>`;
+}
+function setGpsMsg(m){gpsMsg=m;const a=$('#sheetMsg');if(a)a.textContent=m;document.querySelectorAll('.srow-gps .gps-msg').forEach(e=>e.textContent=m)}
+function useGPS(){
+  if(!navigator.geolocation){setGpsMsg(t('gpsFail'));return}
+  setGpsMsg(t('locating'));
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat=pos.coords.latitude,lng=pos.coords.longitude;let best=null,bd=Infinity;
+    for(const c of CITIES){const d=kmBetween(lat,lng,c[4],c[5]);if(d<bd){bd=d;best=c}}
+    S.loc={mode:'gps',lat,lng,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,method:bd<700?best[7]:'mwl',near:bd<60?best[0]:null,cc:bd<700?best[3]:null};
+    save();setGpsMsg('');closeLoc();onPlaceChange();
+  },()=>setGpsMsg(t('gpsFail')),{enableHighAccuracy:false,timeout:15000,maximumAge:600000});
+}
+function onPlaceChange(){invalidate();renderAll()}
+
+/* =================== alerts & sound =================== */
+let AC=null;
+function ensureAudio(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}}
+function chime(vol){if(!AC)return;vol=vol||.3;const t0=AC.currentTime+.03;[[659.25,0],[783.99,.45],[987.77,.9],[1318.51,1.5]].forEach(([f,dt])=>{[[1,1],[2,.22],[3,.07]].forEach(([mu,g])=>{const o=AC.createOscillator(),gn=AC.createGain();o.type='sine';o.frequency.value=f*mu;gn.gain.setValueAtTime(0,t0+dt);gn.gain.linearRampToValueAtTime(vol*g,t0+dt+.02);gn.gain.exponentialRampToValueAtTime(.0001,t0+dt+2.4);o.connect(gn).connect(AC.destination);o.start(t0+dt);o.stop(t0+dt+2.5)})})}
+let bannerTimer=0;
+function fireAlert(msg,force){
+  const b=$('#banner');b.innerHTML=`${IC.bell}<span>${esc(msg)}</span><button class="ib" data-banner aria-label="${esc(t('dismiss'))}">${IC.x}</button>`;b.hidden=false;
+  clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>{b.hidden=true},20000);
+  if(S.notif.sound||force)chime();if(navigator.vibrate)navigator.vibrate([200,100,200]);
+  try{if('Notification' in window&&Notification.permission==='granted'&&document.hidden)new Notification(t('appName'),{body:msg,tag:'samt'})}catch(e){}
+}
+const fired=new Set();
+function checkAlerts(now){
+  if(!S.notif.on)return;const d=ensureDay();
+  for(const k of FIVE){if(!S.notif.per[k])continue;const ts=d.today[k],nm=pName(k,d.ymd),id=d.key+':'+k;
+    if(now>=ts&&now-ts<120000&&!fired.has(id)){fired.add(id);fireAlert(t('alertNow',{p:nm}))}
+    if(S.notif.pre){const pt=ts-S.notif.pre*6e4,id2=id+':pre';if(now>=pt&&now-pt<120000&&!fired.has(id2)){fired.add(id2);fireAlert(t('alertPre',{p:nm,n:fmtMin(S.notif.pre)}))}}}
+}
+
+/* =================== events =================== */
+document.addEventListener('click',e=>{
+  if(e.target.id==='sheet'){closeLoc();return}
+  const b=e.target.closest('button,[data-dk]');if(!b)return;const ds=b.dataset;
+  if(ds.nav){go(ds.nav);return}
+  if(ds.go){go(ds.go,{cat:ds.cat});return}
+  if(ds.open==='loc'){openLoc();return}
+  if(ds.close!==undefined){closeLoc();return}
+  if(ds.banner!==undefined){$('#banner').hidden=true;return}
+  if(ds.city){S.loc={mode:'city',city:ds.city};save();setGpsMsg('');closeLoc();onPlaceChange();return}
+  if(ds.act==='gps'){useGPS();return}
+  if(ds.act==='compass'){enableCompass();return}
+  if(ds.act==='install'){if(deferredInstall){deferredInstall.prompt();(deferredInstall.userChoice||Promise.resolve()).finally(()=>{deferredInstall=null;if(page==='settings')renderPage()})}return}
+  if(ds.act==='test'){ensureAudio();fireAlert(t('alertNow',{p:t('maghrib')}),true);return}
+  if(ds.chk){toggleLog(ds.chk);return}
+  if(ds.bell){S.notif.per[ds.bell]=!S.notif.per[ds.bell];save();refreshToday();return}
+  if(ds.per){S.notif.per[ds.per]=!S.notif.per[ds.per];save();renderPage();return}
+  if(ds.acat){aCat=ds.acat;renderPage();return}
+  if(ds.dk){countDhikr(ds.dk);return}
+  if(ds.a){adhkarAction(ds.a);return}
+  if(ds.tp!==undefined){S.tas.p=+ds.tp;S.tas.n=0;save();renderPage();return}
+  if(ds.tt!==undefined){S.tas.target=+ds.tt;save();renderPage();return}
+  if(b.id==='tasBtn'){tasTap();return}
+  if(ds.cal){calOff+=+ds.cal;renderPage();return}
+  if(ds.set){setOption(ds.set,ds.v);return}
+  if(ds.toggle){toggleOption(ds.toggle);return}
+  if(ds.step){stepOption(ds.step,+ds.d);return}
+});
+document.addEventListener('change',e=>{const s=e.target.closest('select[data-sel]');if(s)setOption(s.dataset.sel,s.value)});
+document.addEventListener('input',e=>{if(e.target.id==='citySearch')renderCityList(e.target.value)});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!$('#sheet').hidden){closeLoc();return}
+  const el=e.target;
+  if((e.key==='Enter'||e.key===' ')&&el.dataset&&el.dataset.dk){e.preventDefault();if(!e.repeat)countDhikr(el.dataset.dk);return}
+  if(page==='tasbeeh'&&(e.key===' '||e.code==='Space')&&!(el.closest&&el.closest('input,select,textarea,button'))){e.preventDefault();if(!e.repeat)tasTap()}
+});
+document.addEventListener('pointerdown',ensureAudio,{once:true});
+if(mqDark.addEventListener)mqDark.addEventListener('change',()=>{if(S.theme==='auto'){applyTheme();if(page==='today')renderPage()}});
+
+/* =================== clock =================== */
+let lastNextKey='',lastPeriod='',lastDay='',lastArc=0;
+function nextKey(){const n=nextPrayer(Date.now());return n.k+n.ts}
+function tick(){
+  const now=Date.now(),d=ensureDay();
+  if(d.key!==lastDay){const first=!lastDay;lastDay=d.key;if(!first&&(page==='today'||page==='calendar'))renderPage()}
+  const nk=nextKey();
+  if(nk!==lastNextKey){lastNextKey=nk;renderSideNext();if(page==='today')renderPage()}
+  const nx=nextPrayer(now),txt=cdText(nx.ts-now);
+  const cd=$('#cd');if(cd)cd.textContent=txt;const sc=$('#sideCd');if(sc)sc.textContent=txt;
+  if(page==='today'){
+    const per=period(now);
+    if(per!==lastPeriod){lastPeriod=per;const pal=skyFor(per),h=$('#hero');if(h){h.style.setProperty('--g0',pal.g[0]);h.style.setProperty('--g1',pal.g[1]);h.style.setProperty('--g2',pal.g[2]);h.style.color=pal.fg;h.classList.toggle('is-light',!!pal.light);const st=$('#stars');if(st)st.style.opacity=pal.stars}}
+    if(now-lastArc>30000){lastArc=now;const ha=$('#heroArc');if(ha)ha.innerHTML=arcSVG(now)}
+  }
+  checkAlerts(now);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){D=null;tick();if(page==='today')renderPage()}});
+
+/* =================== install & offline =================== */
+let deferredInstall=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;if(page==='settings')renderPage()});
+addEventListener('appinstalled',()=>{deferredInstall=null;if(page==='settings')renderPage()});
+if('serviceWorker' in navigator&&document.querySelector('link[rel="manifest"]')&&(location.protocol==='https:'||location.hostname==='localhost')){
+  addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+}
+
+/* =================== boot =================== */
+try{const qp=new URLSearchParams(location.search).get('page');if(qp&&PAGES.includes(qp))page=qp}catch(e){}
+renderAll();lastArc=Date.now();tick();
+setInterval(tick,1000);
+
+/* =================== launch from shortcuts (single window) =================== */
+if('launchQueue' in window){try{launchQueue.setConsumer(p=>{try{const qp=new URL(p.targetURL).searchParams.get('page');if(qp&&PAGES.includes(qp)&&qp!==page)go(qp)}catch(e){}})}catch(e){}}
+
+</script>
+</body>
+</html>
