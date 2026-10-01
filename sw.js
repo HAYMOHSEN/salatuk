@@ -1,6 +1,6 @@
-/* Samt service worker — bump VERSION on every release so installed apps refresh their files */
-const VERSION = 'samt-1.0.0';
-const FONT_CACHE = 'samt-fonts';
+/* Salatuk service worker — bump VERSION on every release so installed apps refresh their files */
+const VERSION = 'salatuk-1.0.0';
+const FONT_CACHE = 'salatuk-fonts';
 const SHELL = [
   './', './index.html', './manifest.webmanifest', './privacy.html',
   './icons/favicon.svg', './icons/favicon-32.png', './icons/apple-touch-icon.png',
@@ -48,7 +48,7 @@ self.addEventListener('fetch', e => {
       if (first && first !== 'slow') return first;
       const cached = (await cache.match(req, { ignoreSearch: true })) || (await cache.match('./index.html')) || (await cache.match('./'));
       if (cached) { e.waitUntil(net); return cached; }
-      return (await net) || new Response('<!doctype html><meta charset="utf-8"><title>Samt</title><p style="font-family:sans-serif;padding:2rem">Offline</p>', { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+      return (await net) || new Response('<!doctype html><meta charset="utf-8"><title>Salatuk</title><p style="font-family:sans-serif;padding:2rem">Offline</p>', { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
     })());
     return;
   }

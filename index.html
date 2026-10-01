@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F3F5F7">
-<meta name="application-name" content="سَمْت">
+<meta name="application-name" content="صلاتك">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="سَمْت">
+<meta name="apple-mobile-web-app-title" content="صلاتك">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="description" content="سَمْت — مواقيت الصلاة والقبلة والأذكار">
-<title>سَمْت</title>
+<meta name="description" content="صلاتك — مواقيت الصلاة والقبلة والأذكار">
+<title>صلاتك</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -439,7 +439,7 @@ tr.is-today td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 'use strict';
 /* =================== i18n =================== */
 const L={
-ar:{appName:'سَمْت',tagline:'مواقيت الصلاة والقبلة والأذكار',
+ar:{appName:'صلاتك',tagline:'مواقيت الصلاة والقبلة والأذكار',
 nav_today:'اليوم',nav_calendar:'التقويم',nav_qibla:'القبلة',nav_adhkar:'الأذكار',nav_tasbeeh:'التسبيح',nav_settings:'الإعدادات',
 fajr:'الفجر',sunrise:'الشروق',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء',jumuah:'الجمعة',
 nextPrayer:'الصلاة القادمة',timeLeft:'الوقت المتبقي',tomorrow:'غداً',nextTag:'القادمة',prayed:'تمّت الصلاة',alert:'التنبيه',
@@ -460,9 +460,9 @@ highLat:'خطوط العرض العليا',hlAngle:'حسب الزاوية',hlMid
 adjustments:'ضبط يدوي للأوقات',adjustDesc:'بالدقائق، لمطابقة تقويم مسجدك.',hijriAdj:'ضبط التاريخ الهجري',
 notifGroup:'التنبيهات',enableNotif:'تنبيهات الصلاة',notifDesc:'تصلك التنبيهات ما دام التطبيق مفتوحاً، وفي الخلفية أيضاً بعد السماح بالإشعارات.',perPrayer:'الصلوات المنبَّه لها',preAlert:'تذكير قبل الأذان',off:'بدون',sound:'صوت التنبيه',test:'تجربة التنبيه',
 appearGroup:'اللغة والمظهر',language:'اللغة',theme:'المظهر',auto:'تلقائي',light:'فاتح',dark:'داكن',timeFormat:'تنسيق الوقت',h12:'12 ساعة',h24:'24 ساعة',digits:'الأرقام',
-aboutGroup:'حول التطبيق',aboutText:'يحسب سَمْت المواقيت واتجاه القبلة فلكياً على جهازك دون اتصال بالإنترنت، وتبقى بياناتك على جهازك.',version:'الإصدار',
+aboutGroup:'حول التطبيق',aboutText:'يحسب تطبيق صلاتك المواقيت واتجاه القبلة فلكياً على جهازك دون اتصال بالإنترنت، وتبقى بياناتك على جهازك.',version:'الإصدار',
 alertNow:'حان الآن موعد أذان {p}',alertPre:'بقي {n} على أذان {p}',dismiss:'إغلاق',close:'إغلاق'},
-en:{appName:'Samt',tagline:'Prayer times, Qibla and adhkar',
+en:{appName:'Salatuk',tagline:'Prayer times, Qibla and adhkar',
 nav_today:'Today',nav_calendar:'Timetable',nav_qibla:'Qibla',nav_adhkar:'Adhkar',nav_tasbeeh:'Tasbeeh',nav_settings:'Settings',
 fajr:'Fajr',sunrise:'Sunrise',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha',jumuah:"Jumu'ah",
 nextPrayer:'Next prayer',timeLeft:'Time left',tomorrow:'Tomorrow',nextTag:'Next',prayed:'Mark as prayed',alert:'Alert',
@@ -483,9 +483,9 @@ highLat:'High latitudes',hlAngle:'Angle-based',hlMid:'Middle of the night',hlSev
 adjustments:'Manual adjustments',adjustDesc:"In minutes, to match your mosque's timetable.",hijriAdj:'Hijri date adjustment',
 notifGroup:'Alerts',enableNotif:'Prayer alerts',notifDesc:'Alerts arrive while the app is open, and in the background once notifications are allowed.',perPrayer:'Prayers to alert',preAlert:'Reminder before adhan',off:'None',sound:'Alert sound',test:'Test alert',
 appearGroup:'Language & appearance',language:'Language',theme:'Theme',auto:'Auto',light:'Light',dark:'Dark',timeFormat:'Time format',h12:'12-hour',h24:'24-hour',digits:'Digits',
-aboutGroup:'About',aboutText:'Samt calculates prayer times and the Qibla direction astronomically on your device, with no internet connection. Your data stays on your device.',version:'Version',
+aboutGroup:'About',aboutText:'Salatuk calculates prayer times and the Qibla direction astronomically on your device, with no internet connection. Your data stays on your device.',version:'Version',
 alertNow:'It is time for {p}',alertPre:'{n} until {p}',dismiss:'Dismiss',close:'Close'},
-fr:{appName:'Samt',tagline:'Horaires de prière, Qibla et adhkar',
+fr:{appName:'Salatuk',tagline:'Horaires de prière, Qibla et adhkar',
 nav_today:"Aujourd'hui",nav_calendar:'Calendrier',nav_qibla:'Qibla',nav_adhkar:'Adhkar',nav_tasbeeh:'Tasbih',nav_settings:'Réglages',
 fajr:'Fajr',sunrise:'Lever du soleil',dhuhr:'Dhuhr',asr:'Asr',maghrib:'Maghrib',isha:'Isha',jumuah:'Joumouʿa',
 nextPrayer:'Prochaine prière',timeLeft:'Temps restant',tomorrow:'Demain',nextTag:'Suivante',prayed:'Marquer comme accomplie',alert:'Alerte',
@@ -506,9 +506,9 @@ highLat:'Hautes latitudes',hlAngle:'Selon l’angle',hlMid:'Milieu de la nuit',h
 adjustments:'Ajustements manuels',adjustDesc:'En minutes, pour correspondre au calendrier de votre mosquée.',hijriAdj:'Ajustement de la date hégirienne',
 notifGroup:'Alertes',enableNotif:'Alertes de prière',notifDesc:'Les alertes arrivent tant que l’application est ouverte, et en arrière-plan une fois les notifications autorisées.',perPrayer:'Prières à signaler',preAlert:'Rappel avant l’adhan',off:'Aucun',sound:'Son de l’alerte',test:'Tester l’alerte',
 appearGroup:'Langue et apparence',language:'Langue',theme:'Thème',auto:'Auto',light:'Clair',dark:'Sombre',timeFormat:'Format de l’heure',h12:'12 h',h24:'24 h',digits:'Chiffres',
-aboutGroup:'À propos',aboutText:'Samt calcule les horaires de prière et la direction de la Qibla de manière astronomique sur votre appareil, sans connexion Internet. Vos données restent sur votre appareil.',version:'Version',
+aboutGroup:'À propos',aboutText:'Salatuk calcule les horaires de prière et la direction de la Qibla de manière astronomique sur votre appareil, sans connexion Internet. Vos données restent sur votre appareil.',version:'Version',
 alertNow:'Heure de la prière : {p}',alertPre:'{p} dans {n}',dismiss:'Fermer',close:'Fermer'},
-tr:{appName:'Samt',tagline:'Namaz vakitleri, kıble ve zikirler',
+tr:{appName:'Salatuk',tagline:'Namaz vakitleri, kıble ve zikirler',
 nav_today:'Bugün',nav_calendar:'İmsakiye',nav_qibla:'Kıble',nav_adhkar:'Zikirler',nav_tasbeeh:'Tesbih',nav_settings:'Ayarlar',
 fajr:'İmsak',sunrise:'Güneş',dhuhr:'Öğle',asr:'İkindi',maghrib:'Akşam',isha:'Yatsı',jumuah:'Cuma',
 nextPrayer:'Sıradaki vakit',timeLeft:'Kalan süre',tomorrow:'Yarın',nextTag:'Sıradaki',prayed:'Kılındı olarak işaretle',alert:'Uyarı',
@@ -529,9 +529,9 @@ highLat:'Yüksek enlemler',hlAngle:'Açıya göre',hlMid:'Gecenin yarısı',hlSe
 adjustments:'Elle düzeltme',adjustDesc:'Dakika olarak; camiinizin takvimine uydurmak için.',hijriAdj:'Hicri tarih düzeltmesi',
 notifGroup:'Uyarılar',enableNotif:'Vakit uyarıları',notifDesc:'Uyarılar uygulama açıkken gelir; bildirimlere izin verildiğinde arka planda da.',perPrayer:'Uyarı verilecek vakitler',preAlert:'Ezandan önce hatırlat',off:'Yok',sound:'Uyarı sesi',test:'Uyarıyı dene',
 appearGroup:'Dil ve görünüm',language:'Dil',theme:'Tema',auto:'Otomatik',light:'Açık',dark:'Koyu',timeFormat:'Saat biçimi',h12:'12 saat',h24:'24 saat',digits:'Rakamlar',
-aboutGroup:'Hakkında',aboutText:'Samt, namaz vakitlerini ve kıble yönünü internet bağlantısı olmadan cihazınızda astronomik olarak hesaplar. Verileriniz cihazınızda kalır.',version:'Sürüm',
+aboutGroup:'Hakkında',aboutText:'Salatuk, namaz vakitlerini ve kıble yönünü internet bağlantısı olmadan cihazınızda astronomik olarak hesaplar. Verileriniz cihazınızda kalır.',version:'Sürüm',
 alertNow:'{p} vakti girdi',alertPre:'{p} vaktine {n} kaldı',dismiss:'Kapat',close:'Kapat'},
-ur:{appName:'سَمْت',tagline:'اوقاتِ نماز، قبلہ اور اذکار',
+ur:{appName:'صلاتك',tagline:'اوقاتِ نماز، قبلہ اور اذکار',
 nav_today:'آج',nav_calendar:'نقشۂ اوقات',nav_qibla:'قبلہ',nav_adhkar:'اذکار',nav_tasbeeh:'تسبیح',nav_settings:'ترتیبات',
 fajr:'فجر',sunrise:'طلوعِ آفتاب',dhuhr:'ظہر',asr:'عصر',maghrib:'مغرب',isha:'عشاء',jumuah:'جمعہ',
 nextPrayer:'اگلی نماز',timeLeft:'باقی وقت',tomorrow:'کل',nextTag:'اگلی',prayed:'ادا شدہ نشان لگائیں',alert:'اطلاع',
@@ -552,9 +552,9 @@ highLat:'بلند عرض بلد',hlAngle:'زاویے کے مطابق',hlMid:'ن�
 adjustments:'دستی تبدیلی',adjustDesc:'منٹوں میں، اپنی مسجد کے نقشے سے ملانے کے لیے۔',hijriAdj:'ہجری تاریخ میں تبدیلی',
 notifGroup:'اطلاعات',enableNotif:'نماز کی اطلاعات',notifDesc:'اطلاعات اس وقت آتی ہیں جب ایپ کھلی ہو، اور اجازت دینے پر پس منظر میں بھی۔',perPrayer:'جن نمازوں کی اطلاع ہو',preAlert:'اذان سے پہلے یاد دہانی',off:'کوئی نہیں',sound:'اطلاع کی آواز',test:'اطلاع آزمائیں',
 appearGroup:'زبان اور ظاہری شکل',language:'زبان',theme:'تھیم',auto:'خودکار',light:'روشن',dark:'تاریک',timeFormat:'وقت کا انداز',h12:'12 گھنٹے',h24:'24 گھنٹے',digits:'ہندسے',
-aboutGroup:'تعارف',aboutText:'سَمْت نماز کے اوقات اور قبلے کی سمت انٹرنیٹ کے بغیر آپ کے آلے پر فلکیاتی طور پر حساب کرتا ہے۔ آپ کا ڈیٹا آپ ہی کے آلے پر رہتا ہے۔',version:'ورژن',
+aboutGroup:'تعارف',aboutText:'صلاتك ایپ نماز کے اوقات اور قبلے کی سمت انٹرنیٹ کے بغیر آپ کے آلے پر فلکیاتی طور پر حساب کرتا ہے۔ آپ کا ڈیٹا آپ ہی کے آلے پر رہتا ہے۔',version:'ورژن',
 alertNow:'{p} کا وقت ہو گیا',alertPre:'{p} میں {n} باقی',dismiss:'بند کریں',close:'بند کریں'},
-id:{appName:'Samt',tagline:'Jadwal salat, kiblat, dan dzikir',
+id:{appName:'Salatuk',tagline:'Jadwal salat, kiblat, dan dzikir',
 nav_today:'Hari ini',nav_calendar:'Jadwal',nav_qibla:'Kiblat',nav_adhkar:'Dzikir',nav_tasbeeh:'Tasbih',nav_settings:'Pengaturan',
 fajr:'Subuh',sunrise:'Terbit',dhuhr:'Dzuhur',asr:'Ashar',maghrib:'Maghrib',isha:'Isya',jumuah:'Jumat',
 nextPrayer:'Salat berikutnya',timeLeft:'Sisa waktu',tomorrow:'Besok',nextTag:'Berikutnya',prayed:'Tandai sudah salat',alert:'Pengingat',
@@ -575,7 +575,7 @@ highLat:'Lintang tinggi',hlAngle:'Berdasarkan sudut',hlMid:'Tengah malam',hlSeve
 adjustments:'Penyesuaian manual',adjustDesc:'Dalam menit, agar sesuai jadwal masjid Anda.',hijriAdj:'Penyesuaian tanggal Hijriah',
 notifGroup:'Pengingat',enableNotif:'Pengingat salat',notifDesc:'Pengingat muncul selama aplikasi terbuka, dan di latar belakang setelah notifikasi diizinkan.',perPrayer:'Salat yang diingatkan',preAlert:'Pengingat sebelum azan',off:'Tidak ada',sound:'Suara pengingat',test:'Uji pengingat',
 appearGroup:'Bahasa & tampilan',language:'Bahasa',theme:'Tema',auto:'Otomatis',light:'Terang',dark:'Gelap',timeFormat:'Format waktu',h12:'12 jam',h24:'24 jam',digits:'Angka',
-aboutGroup:'Tentang',aboutText:'Samt menghitung jadwal salat dan arah kiblat secara astronomis di perangkat Anda tanpa koneksi internet. Data Anda tetap di perangkat Anda.',version:'Versi',
+aboutGroup:'Tentang',aboutText:'Salatuk menghitung jadwal salat dan arah kiblat secara astronomis di perangkat Anda tanpa koneksi internet. Data Anda tetap di perangkat Anda.',version:'Versi',
 alertNow:'Waktunya salat {p}',alertPre:'{n} lagi menuju {p}',dismiss:'Tutup',close:'Tutup'}
 };
 const LANGS=[['ar','العربية'],['en','English'],['fr','Français'],['tr','Türkçe'],['ur','اردو'],['id','Bahasa Indonesia']];
@@ -799,12 +799,12 @@ const TAS=['سُبْحَانَ اللَّهِ','الْحَمْدُ لِلَّه�
 
 /* extra strings (install) */
 const L_EXTRA={
- ar:{install:'تثبيت التطبيق',installDesc:'ثبّت سَمْت على جهازك ليعمل تطبيقاً مستقلاً ودون اتصال بالإنترنت.'},
- en:{install:'Install app',installDesc:'Install Samt on your device to use it as a standalone app, even offline.'},
- fr:{install:'Installer l’application',installDesc:'Installez Samt sur votre appareil pour l’utiliser comme une application autonome, même hors ligne.'},
- tr:{install:'Uygulamayı yükle',installDesc:'Samt’ı cihazınıza yükleyerek bağımsız bir uygulama olarak, çevrimdışı da kullanın.'},
- ur:{install:'ایپ انسٹال کریں',installDesc:'سَمْت کو اپنے آلے پر انسٹال کریں تاکہ یہ الگ ایپ کی طرح آف لائن بھی چلے۔'},
- id:{install:'Pasang aplikasi',installDesc:'Pasang Samt di perangkat Anda agar bisa dipakai sebagai aplikasi mandiri, juga tanpa internet.'}
+ ar:{install:'تثبيت التطبيق',installDesc:'ثبّت تطبيق صلاتك على جهازك ليعمل تطبيقاً مستقلاً ودون اتصال بالإنترنت.'},
+ en:{install:'Install app',installDesc:'Install Salatuk on your device to use it as a standalone app, even offline.'},
+ fr:{install:'Installer l’application',installDesc:'Installez Salatuk sur votre appareil pour l’utiliser comme une application autonome, même hors ligne.'},
+ tr:{install:'Uygulamayı yükle',installDesc:'Salatuk’u cihazınıza yükleyerek bağımsız bir uygulama olarak, çevrimdışı da kullanın.'},
+ ur:{install:'ایپ انسٹال کریں',installDesc:'صلاتك ایپ کو اپنے آلے پر انسٹال کریں تاکہ یہ الگ ایپ کی طرح آف لائن بھی چلے۔'},
+ id:{install:'Pasang aplikasi',installDesc:'Pasang Salatuk di perangkat Anda agar bisa dipakai sebagai aplikasi mandiri, juga tanpa internet.'}
 };
 for(const k in L_EXTRA)Object.assign(L[k],L_EXTRA[k]);
 
@@ -848,13 +848,13 @@ function tzOffset(tz,y,m,d){const ms=Date.UTC(y,m-1,d,12);const p=tzParts(tz,ms)
 const angDiff=(a,b)=>((a-b+540)%360)-180;
 
 /* =================== state =================== */
-const KEY='samt.v1';
+const KEY='salatuk.v1',OLD_KEY='samt.v1';
 const DEF={lang:'ar',digits:'latn',theme:'auto',h12:null,loc:{mode:'city',city:'dubai'},method:'auto',asr:1,hl:'angle',
   adj:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},hijriAdj:0,
   notif:{on:false,pre:10,sound:true,per:{fajr:true,dhuhr:true,asr:true,maghrib:true,isha:true}},
   log:{},dh:{date:'',p:{}},tas:{p:0,n:0,target:33,total:0},aSize:25,aTr:null};
 function load(){
-  let s=null;try{s=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  let s=null;try{s=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(OLD_KEY)||'null')}catch(e){}
   const o=JSON.parse(JSON.stringify(DEF));
   if(s&&typeof s==='object'){for(const k in s){if(o[k]&&typeof o[k]==='object'&&!Array.isArray(o[k])&&s[k]&&typeof s[k]==='object'&&k!=='loc')o[k]=Object.assign(o[k],s[k]);else o[k]=s[k]}
     o.notif.per=Object.assign({},DEF.notif.per,(s.notif&&s.notif.per)||{})}
@@ -1292,7 +1292,7 @@ function fireAlert(msg,force){
   const b=$('#banner');b.innerHTML=`${IC.bell}<span>${esc(msg)}</span><button class="ib" data-banner aria-label="${esc(t('dismiss'))}">${IC.x}</button>`;b.hidden=false;
   clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>{b.hidden=true},20000);
   if(S.notif.sound||force)chime();if(navigator.vibrate)navigator.vibrate([200,100,200]);
-  try{if('Notification' in window&&Notification.permission==='granted'&&document.hidden)new Notification(t('appName'),{body:msg,tag:'samt'})}catch(e){}
+  try{if('Notification' in window&&Notification.permission==='granted'&&document.hidden)new Notification(t('appName'),{body:msg,tag:'salatuk'})}catch(e){}
 }
 const fired=new Set();
 function checkAlerts(now){
